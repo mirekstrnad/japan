@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japonsko - plan podle mest</title>
+<style>
+:root{--bg:#0f1115;--card:#1a1d24;--card2:#20242d;--line:#2a2f3a;--tx:#e7e9ee;--mut:#9aa2b1;--acc:#e8623d;--gr:#7dd3a8;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;padding:0 0 60px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+header{padding:30px 0 14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+h1{font-size:24px;font-weight:700;letter-spacing:-.4px}
+.sub{color:var(--mut);font-size:13.5px;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:7px 13px;border-radius:999px;font-size:13px;cursor:pointer;user-select:none}
+.chip.active{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.leg{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
+.leghead{display:flex;align-items:baseline;gap:10px;padding:14px 16px;cursor:pointer;background:var(--card2);border-bottom:1px solid var(--line)}
+.leghead:hover{background:#252a34}
+.cityname{font-size:18px;font-weight:700}
+.citymeta{font-size:12.5px;color:var(--mut)}
+.caret{margin-left:auto;color:var(--mut);font-size:12px}
+.leg.collapsed .plist{display:none}
+.leg.collapsed .caret{transform:rotate(-90deg)}
+.plist{padding:12px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:11px}
+.pl{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 13px;display:flex;flex-direction:column;gap:7px;position:relative}
+.pl:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;background:var(--pc,#555)}
+.kn{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.nm{font-weight:650;font-size:14px;line-height:1.25}
+.kd{font-size:10.5px;color:var(--mut);white-space:nowrap}
+.rb{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;align-self:flex-start}
+.rb.real{color:#0f1115;background:var(--gr)}
+.rb.score{color:var(--mut);background:var(--card2)}
+.nt{font-size:12px;color:#c3ccd9}
+.lnks{display:flex;gap:12px;margin-top:2px;flex-wrap:wrap}
+.lnks a{font-size:12.5px;font-weight:600;text-decoration:none}
+.lnks a.reel{color:var(--acc)}
+.lnks a.map{color:#5aa9ea}
+.lnks a:hover{text-decoration:underline}
+footer{margin-top:30px;color:var(--mut);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:16px}
+.load{color:var(--mut);padding:40px 0;text-align:center}
+@media(max-width:520px){.plist{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Japonsko - plan podle mest</h1>
+  <div class="sub">Vsech 204 ulozenych IG reelu z kolekce, rozdelenych podle mest a ohodnocenych. Zelene stitky = realna hodnoceni lidi (Google/Tabelog/Tripadvisor). U mist s konkretni lokaci je odkaz na Google Maps.</div>
+  <div class="chips" id="cats"></div>
+</header>
+<div id="out" class="load">Nacitam data...</div>
+<footer>Vygenerovano z IG kolekce "Japonsko". Skore je subjektivni kuratorske hodnoceni; zelene stitky jsou verejna hodnoceni (srpen 2026).</footer>
+</div>
+<script>
+const CATN=["Jidlo & kavarny","Atrakce & zazitky","Auta / JDM","Nakupovani & anime","Vlaky & doprava","Hotely & ubytovani","Tipy & rady","Ostatni"];
+const CC=["#e8623d","#3b82c4","#8b5cf6","#e0699f","#2fa37a","#c99a2e","#6b7280","#94a3b8"];
+const CITY_ORDER=["Tokio","Kjoto","Nara","Osaka","Nagoya / Aici","Suzuka / Mie","Hakone / Fuji","Jokohama","Kamakura / Enoshima","Kawagoe (Saitama)","Kanazawa","Fukuoka / Kjusu","Aomori / Tohoku","Cele Japonsko / neurceno"];
+let DATA=[], catFilter="Vse";
+function esc(t){return (t||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function stars(s){let o="";for(let i=1;i<=5;i++){o+= s>=i?"★":(s>=i-0.5?"½":"☆");}return o;}
+function mapUrl(mq){return mq?("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(mq)):"";}
+function reelUrl(slug){return "https://www.instagram.com/reel/"+slug+"/";}
+
+Promise.all([0,1,2].map(i=>fetch("data/d"+i+".json").then(r=>r.json())))
+ .then(parts=>{DATA=[].concat.apply([],parts);buildChips();render();})
+ .catch(e=>{document.getElementById("out").textContent="Chyba pri nacitani dat: "+e;});
+
+function buildChips(){
+  const box=document.getElementById("cats");
+  ["Vse"].concat(CATN).forEach(c=>{
+    const cnt = c==="Vse"?DATA.length:DATA.filter(r=>CATN[r[2]]===c).length;
+    if(c!=="Vse" && cnt===0) return;
+    const el=document.createElement("div");
+    el.className="chip"+(c==="Vse"?" active":"");
+    el.textContent=c+" ("+cnt+")";
+    el.onclick=()=>{catFilter=c;[...box.children].forEach(x=>x.classList.remove("active"));el.classList.add("active");render();};
+    box.appendChild(el);
+  });
+}
+function render(){
+  const rows=DATA.filter(r=>catFilter==="Vse"||CATN[r[2]]===catFilter);
+  const byCity={};
+  rows.forEach(r=>{(byCity[r[4]]=byCity[r[4]]||[]).push(r);});
+  let order=CITY_ORDER.filter(c=>byCity[c]);
+  Object.keys(byCity).forEach(c=>{if(!order.includes(c))order.push(c);});
+  const html=order.map(c=>{
+    const items=byCity[c].slice().sort((a,b)=>b[3]-a[3]||(b[5]?1:0)-(a[5]?1:0));
+    const cards=items.map(r=>{
+      const owner=r[0],slug=r[1],cat=r[2],score=r[3],place=r[5],ext=r[6],note=r[7],mq=r[8];
+      const col=CC[cat]||"#888";
+      const badge=place?('<span class="rb real">'+esc(ext&&ext!=="-"?ext:place)+'</span>')
+                       :('<span class="rb score">'+score.toFixed(1).replace(".",",")+"/5 "+stars(score)+"</span>");
+      const mu=mapUrl(mq);
+      return '<div class="pl" style="--pc:'+col+'">'+
+        '<div class="kn"><span class="nm">'+esc(place||owner)+'</span><span class="kd">'+esc(CATN[cat])+'</span></div>'+
+        badge+
+        (note?'<div class="nt">'+esc(note)+'</div>':'')+
+        '<div class="lnks"><a class="reel" href="'+reelUrl(slug)+'" target="_blank" rel="noopener">▶ Reel</a>'+
+          (mu?'<a class="map" href="'+mu+'" target="_blank" rel="noopener">🗺️ Mapy</a>':'')+'</div>'+
+      '</div>';
+    }).join("");
+    const collapsed=(c==="Cele Japonsko / neurceno");
+    return '<div class="leg'+(collapsed?" collapsed":"")+'">'+
+      '<div class="leghead" onclick="this.parentNode.classList.toggle(\'collapsed\')">'+
+        '<span class="cityname">'+esc(c)+'</span><span class="citymeta">'+items.length+' reelu</span><span class="caret">▼</span></div>'+
+      '<div class="plist">'+cards+'</div></div>';
+  }).join("");
+  document.getElementById("out").className="";
+  document.getElementById("out").innerHTML=html||'<div class="load">Nic v teto kategorii.</div>';
+}
+</script>
+</body>
+</html>
