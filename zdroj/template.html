@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japonsko - plan a prehled reels</title>
+<style>
+:root{--bg:#0f1115;--card:#1a1d24;--card2:#20242d;--line:#2a2f3a;--tx:#e7e9ee;--mut:#9aa2b1;--acc:#e8623d;--gr:#7dd3a8;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;padding:0 0 60px}
+.wrap{max-width:1150px;margin:0 auto;padding:0 18px}
+header{padding:34px 0 16px;border-bottom:1px solid var(--line);margin-bottom:18px}
+h1{font-size:26px;font-weight:700;letter-spacing:-.4px}
+.sub{color:var(--mut);font-size:14px;margin-top:6px}
+.tabs{display:flex;gap:8px;margin:18px 0 8px}
+.tab{flex:0 0 auto;background:var(--card);border:1px solid var(--line);color:var(--mut);padding:11px 20px;border-radius:11px;font-size:14.5px;font-weight:600;cursor:pointer;transition:.15s}
+.tab:hover{color:var(--tx);border-color:#3d4452}
+.tab.active{background:var(--acc);border-color:var(--acc);color:#fff}
+.section{display:none}
+.section.show{display:block}
+
+/* PLAN */
+.modebar{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;margin:6px 0 4px}
+.mode{padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;transition:.15s;user-select:none}
+.mode:hover{color:var(--tx)}
+.mode.active{background:var(--acc);color:#fff}
+.leg.collapsed .plist,.leg.collapsed .legdesc{display:none}
+.leghead .caret{margin-left:8px;color:var(--mut);font-size:12px;transition:.15s}
+.leg.collapsed .leghead .caret{transform:rotate(-90deg)}
+.routebar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0 22px;font-size:13.5px;color:var(--mut)}
+.routebar b{color:var(--tx)}
+.routebar .arw{color:var(--acc);font-weight:700;margin:0 2px}
+.leg{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0;margin-bottom:16px;overflow:hidden}
+.leghead{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:16px 18px;cursor:pointer;background:var(--card2);border-bottom:1px solid var(--line)}
+.leghead:hover{background:#252a34}
+.cityname{font-size:19px;font-weight:700;letter-spacing:-.2px}
+.citymeta{font-size:12.5px;color:var(--mut)}
+.legtag{margin-left:auto;font-size:11.5px;font-weight:700;color:#fff;background:var(--acc);padding:3px 11px;border-radius:999px}
+.legdesc{font-size:13px;color:var(--mut);padding:11px 18px 4px}
+.plist{padding:6px 18px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+.pl{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 13px;display:flex;flex-direction:column;gap:7px;position:relative}
+.pl:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;background:var(--pc,#555)}
+.pl .kn{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.pl .nm{font-weight:650;font-size:14.5px;line-height:1.25}
+.pl .kd{font-size:11px;color:var(--mut);white-space:nowrap}
+.pl .rb{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;align-self:flex-start}
+.pl .rb.real{color:#0f1115;background:var(--gr)}
+.pl .rb.score{color:var(--mut);background:var(--card2)}
+.pl .nt{font-size:12.5px;color:#c3ccd9}
+.pl .lnks{display:flex;gap:12px;margin-top:2px;flex-wrap:wrap}
+.pl .lnks a{font-size:12.5px;font-weight:600;text-decoration:none}
+.pl .lnks a.reel{color:var(--acc)}
+.pl .lnks a.map{color:#5aa9ea}
+.pl .lnks a:hover{text-decoration:underline}
+.card .maplink{color:#5aa9ea;text-decoration:none;font-size:13px;font-weight:600;margin-right:auto;align-self:center}
+.card .maplink:hover{text-decoration:underline}
+.tip{background:rgba(232,98,61,.08);border:1px solid rgba(232,98,61,.3);border-radius:12px;padding:13px 16px;font-size:13.5px;color:#f0d7cd;margin:6px 0 20px}
+
+/* REELS */
+.controls{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg) 78%,rgba(15,17,21,0));padding:12px 0}
+.searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input[type=search]{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);color:var(--tx);padding:11px 14px;border-radius:10px;font-size:14px;outline:none}
+input[type=search]:focus{border-color:var(--acc)}
+select{background:var(--card);border:1px solid var(--line);color:var(--tx);padding:11px 12px;border-radius:10px;font-size:14px;outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:7px 13px;border-radius:999px;font-size:13px;cursor:pointer;transition:.15s;user-select:none}
+.chip:hover{border-color:#3d4452;color:var(--tx)}
+.chip.active{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.count{color:var(--mut);font-size:13px;margin:14px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cbar,#333)}
+.chead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.owner{font-weight:650;font-size:14.5px;line-height:1.3}
+.catbadge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;color:#fff;opacity:.92}
+.stars{font-size:14px;letter-spacing:1px;color:#f5b301}
+.stars .num{color:var(--mut);font-size:12.5px;letter-spacing:0;margin-left:6px}
+.place{font-size:13px;font-weight:600;color:var(--gr);background:rgba(47,163,122,.12);border:1px solid rgba(47,163,122,.28);padding:6px 9px;border-radius:8px}
+.ext{display:inline-block;font-size:11.5px;font-weight:700;color:#0f1115;background:var(--gr);padding:2px 7px;border-radius:6px;margin-left:6px}
+.note{font-size:12.5px;color:#c9d2df;font-style:italic}
+.cap{font-size:13px;color:var(--mut);white-space:pre-wrap;max-height:64px;overflow:hidden;position:relative;transition:max-height .2s}
+.cap.open{max-height:1400px}
+.cap.clip:after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:linear-gradient(180deg,rgba(26,29,36,0),var(--card))}
+.more{font-size:12px;color:var(--acc);cursor:pointer;align-self:flex-start;user-select:none}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:10.5px;color:var(--mut);background:var(--card2);padding:2px 7px;border-radius:5px}
+.foot{margin-top:auto;display:flex;justify-content:flex-end;padding-top:4px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--acc);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:9px;transition:.15s}
+.btn:hover{filter:brightness(1.08)}
+.empty{text-align:center;color:var(--mut);padding:50px 0}
+footer{margin-top:34px;color:var(--mut);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:18px}
+@media(max-width:520px){.grid,.plist{grid-template-columns:1fr}h1{font-size:22px}.legtag{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Japonsko - plan cesty & prehled reels</h1>
+  <div class="sub">Z tve IG kolekce (<b id="tot"></b> reelu). V zalozce <b>Plan</b> mas nejlepsi mista rozhozena podle mest do trasy; v zalozce <b>Vsechny reely</b> kompletni seznam s hodnocenim a odkazy.</div>
+  <div class="tabs">
+    <div class="tab active" data-t="plan">🗺️ Plan podle mest</div>
+    <div class="tab" data-t="reels">🎬 Vsechny reely</div>
+  </div>
+</header>
+
+<!-- PLAN SECTION -->
+<div class="section show" id="sec-plan">
+  <div class="modebar">
+    <div class="mode active" data-m="curated">⭐ Jen vybrana mista</div>
+    <div class="mode" data-m="all">📍 Vsechny reely podle mest</div>
+  </div>
+  <div class="chips" id="plancats" style="margin-top:14px"></div>
+  <div class="routebar" id="route"></div>
+  <div class="tip" id="tip-curated">💡 <b>Doporucena trasa:</b> zacni v Tokiu, pak Shinkansenem do Kjota (baze pro Kjoto + Nara + Uji), dolu do Osaky, a podle chuti pridej vylety Aici/Suzuka nebo dalsi cestu na Fukuoku. Zelene stitky = realna hodnoceni lidi, ostatni je moje skore.</div>
+  <div class="tip" id="tip-all" style="display:none">📍 <b>Vsech 204 reelu</b> rozdelenych podle mesta, ktere se v nich zminuje. Kliknutim na mesto sbalis/rozbalis jeho seznam. Co nema jasne mesto, je v "Cele Japonsko / neurceno".</div>
+  <div id="plan"></div>
+  <div id="plan-all" style="display:none"></div>
+</div>
+
+<!-- REELS SECTION -->
+<div class="section" id="sec-reels">
+  <div class="controls">
+    <div class="searchrow">
+      <input type="search" id="q" placeholder="Hledat (misto, mesto, jidlo, autor...)">
+      <select id="sort">
+        <option value="score">Seradit: nejlepsi skore</option>
+        <option value="verified">Seradit: overena mista prvni</option>
+        <option value="orig">Seradit: poradi v kolekci</option>
+      </select>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">Nic nenalezeno - zkus jiny filtr.</div>
+</div>
+
+<footer>Vygenerovano z tve kolekce "Japonsko". Skore je subjektivni kuratorske hodnoceni; zelene stitky jsou realna verejna hodnoceni (Google/Tabelog/Tripadvisor, srpen 2026).</footer>
+</div>
+
+<script>
+const DATA=__DATA__, CC=__COLORS__, CATS=__CATS__, PLAN=__PLAN__;
+let activeCat="Vse", q="", sort="score";
+document.getElementById('tot').textContent=DATA.length;
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  const which=t.dataset.t;
+  document.getElementById('sec-plan').classList.toggle('show',which==='plan');
+  document.getElementById('sec-reels').classList.toggle('show',which==='reels');
+  window.scrollTo({top:0});
+});
+
+function esc(t){return (t||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function stars(s){let out="";for(let i=1;i<=5;i++){out+= s>=i?"★":(s>=i-0.5?"½":"☆");}return out;}
+
+/* route bar */
+document.getElementById('route').innerHTML = PLAN.map((l,i)=>
+  '<span><b>'+esc(l.city.split(' /')[0])+'</b></span>'+(i<PLAN.length-1?'<span class="arw">→</span>':'')
+).join('');
+
+let planCat="Vse";
+function mapsLink(gmap,cls){return gmap?('<a class="'+cls+'" href="'+esc(gmap)+'" target="_blank" rel="noopener">🗺️ Mapy</a>'):'';}
+
+/* plan: curated */
+function renderCurated(){
+  document.getElementById('plan').innerHTML = PLAN.map(l=>{
+    const places=l.places.filter(pp=>planCat==='Vse'||pp.cat===planCat);
+    if(!places.length) return '';
+    const cards=places.map(pp=>{
+      const rb = pp.real ? '<span class="rb real">'+esc(pp.badge)+'</span>'
+                         : (pp.badge?('<span class="rb score">'+esc(pp.badge)+'</span>'):'');
+      return '<div class="pl" style="--pc:'+pp.col+'">'+
+        '<div class="kn"><span class="nm">'+esc(pp.name)+'</span><span class="kd">'+esc(pp.kind)+'</span></div>'+
+        rb+
+        (pp.note?'<div class="nt">'+esc(pp.note)+'</div>':'')+
+        '<div class="lnks"><a class="reel" href="'+esc(pp.url)+'" target="_blank" rel="noopener">▶ Reel</a>'+mapsLink(pp.gmap,'map')+'</div>'+
+      '</div>';
+    }).join('');
+    return '<div class="leg">'+
+      '<div class="leghead"><span class="cityname">'+esc(l.city)+'</span>'+
+        '<span class="citymeta">'+esc(l.days)+' · '+places.length+' mist</span>'+
+        '<span class="legtag">'+esc(l.tag)+'</span></div>'+
+      '<div class="legdesc">'+esc(l.desc)+'</div>'+
+      '<div class="plist">'+cards+'</div>'+
+    '</div>';
+  }).join('') || '<div class="empty">V teto kategorii nejsou vybrana mista - zkus zalozku "Vsechny reely podle mest".</div>';
+}
+
+/* plan: all reels grouped by city */
+const CITY_ORDER=["Tokio","Kjoto","Nara","Osaka","Nagoya / Aici","Suzuka / Mie","Hakone / Fuji","Jokohama","Kamakura / Enoshima","Kawagoe (Saitama)","Kanazawa","Fukuoka / Kjusu","Hirosima / Mijadzima","Aomori / Tohoku","Wakayama","Hokkaido","Cele Japonsko / neurceno"];
+function renderAll(){
+  const byCity={};
+  DATA.filter(r=>planCat==='Vse'||r.cat===planCat).forEach(r=>{(byCity[r.city]=byCity[r.city]||[]).push(r);});
+  let order=CITY_ORDER.filter(c=>byCity[c]);
+  Object.keys(byCity).forEach(c=>{if(!order.includes(c))order.push(c);});
+  const html=order.map(c=>{
+    const items=byCity[c].slice().sort((a,b)=>b.score-a.score||(b.place?1:0)-(a.place?1:0));
+    const cards=items.map(r=>{
+      const col=CC[r.cat]||'#888';
+      const badge=r.place?('<span class="rb real">'+esc(r.ext&&r.ext!=='-'?r.ext:r.place)+'</span>'):('<span class="rb score">'+r.score.toFixed(1).replace('.',',')+'/5 '+stars(r.score)+'</span>');
+      return '<div class="pl" style="--pc:'+col+'">'+
+        '<div class="kn"><span class="nm">'+esc(r.place||r.owner)+'</span><span class="kd">'+esc(r.cat)+'</span></div>'+
+        badge+
+        (r.note?'<div class="nt">'+esc(r.note)+'</div>':'')+
+        '<div class="lnks"><a class="reel" href="'+esc(r.url)+'" target="_blank" rel="noopener">▶ Reel</a>'+mapsLink(r.gmap,'map')+'</div>'+
+      '</div>';
+    }).join('');
+    const collapsed = (c==='Cele Japonsko / neurceno');
+    return '<div class="leg'+(collapsed?' collapsed':'')+'">'+
+      '<div class="leghead" onclick="this.parentNode.classList.toggle(\'collapsed\')"><span class="cityname">'+esc(c)+'</span>'+
+        '<span class="citymeta">'+items.length+' reelu</span>'+
+        '<span class="caret">▼</span></div>'+
+      '<div class="plist">'+cards+'</div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('plan-all').innerHTML = html || '<div class="empty">V teto kategorii nic neni.</div>';
+}
+
+/* plan category chips */
+const pcats=document.getElementById('plancats');
+CATS.forEach(c=>{
+  const el=document.createElement('div');
+  el.className='chip'+(c==='Vse'?' active':'');
+  el.textContent=c;
+  el.onclick=()=>{planCat=c;[...pcats.children].forEach(x=>x.classList.remove('active'));el.classList.add('active');renderCurated();renderAll();};
+  pcats.appendChild(el);
+});
+renderCurated();
+renderAll();
+
+/* mode toggle (curated vs all-by-city) */
+document.querySelectorAll('.mode').forEach(m=>m.onclick=()=>{
+  document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));
+  m.classList.add('active');
+  const all=m.dataset.m==='all';
+  document.getElementById('plan').style.display=all?'none':'block';
+  document.getElementById('plan-all').style.display=all?'block':'none';
+  document.getElementById('tip-curated').style.display=all?'none':'block';
+  document.getElementById('tip-all').style.display=all?'block':'none';
+  document.getElementById('route').style.display=all?'none':'flex';
+});
+
+/* reels chips */
+const chips=document.getElementById('chips');
+CATS.forEach(c=>{
+  const el=document.createElement('div');
+  el.className='chip'+(c==='Vse'?' active':'');
+  el.textContent=c==='Vse'?('Vse ('+DATA.length+')'):(c+' ('+DATA.filter(r=>r.cat===c).length+')');
+  el.onclick=()=>{activeCat=c;[...chips.children].forEach(x=>x.classList.remove('active'));el.classList.add('active');render();};
+  chips.appendChild(el);
+});
+document.getElementById('q').addEventListener('input',e=>{q=e.target.value.toLowerCase();render();});
+document.getElementById('sort').addEventListener('change',e=>{sort=e.target.value;render();});
+
+function render(){
+  let list=DATA.filter(r=>{
+    if(activeCat!=='Vse' && r.cat!==activeCat) return false;
+    if(q){const hay=(r.owner+' '+r.cap+' '+r.place+' '+r.note+' '+r.tags.join(' ')+' '+r.cat).toLowerCase(); if(!hay.includes(q)) return false;}
+    return true;
+  });
+  if(sort==='score') list.sort((a,b)=>b.score-a.score||(b.place?1:0)-(a.place?1:0));
+  else if(sort==='verified') list.sort((a,b)=>((b.place?1:0)-(a.place?1:0))||b.score-a.score);
+  else list.sort((a,b)=>a.i-b.i);
+  const grid=document.getElementById('grid'); grid.innerHTML='';
+  document.getElementById('empty').style.display=list.length?'none':'block';
+  document.getElementById('count').textContent='Zobrazeno '+list.length+' reelu'+(activeCat!=='Vse'?(' v kategorii '+activeCat):'');
+  list.forEach(r=>{
+    const col=CC[r.cat]||'#888';
+    const card=document.createElement('div');card.className='card';card.style.setProperty('--cbar',col);
+    const placeHtml=r.place?('<div class="place">📍 '+esc(r.place)+(r.ext&&r.ext!=='-'?('<span class="ext">'+esc(r.ext)+'</span>'):'')+'</div>'):'';
+    const noteHtml=r.note?('<div class="note">'+esc(r.note)+'</div>'):'';
+    const tagsHtml=r.tags.length?('<div class="tags">'+r.tags.map(t=>'<span class="tag">#'+esc(t)+'</span>').join('')+'</div>'):'';
+    const capClip=(r.cap||'').length>150;
+    card.innerHTML='<div class="chead"><div class="owner">'+esc(r.owner)+'</div><span class="catbadge" style="background:'+col+'">'+esc(r.cat)+'</span></div>'+
+      '<div class="stars">'+stars(r.score)+'<span class="num">'+r.score.toFixed(1).replace('.',',')+'/5</span></div>'+
+      placeHtml+noteHtml+
+      (r.cap?('<div class="cap'+(capClip?' clip':'')+'">'+esc(r.cap)+'</div>'+(capClip?'<span class="more">Zobrazit cely popisek</span>':'')):'')+
+      tagsHtml+
+      '<div class="foot">'+(r.gmap?'<a class="maplink" href="'+esc(r.gmap)+'" target="_blank" rel="noopener">🗺️ Mapy</a>':'')+'<a class="btn" href="'+esc(r.url)+'" target="_blank" rel="noopener">Otevrit reel →</a></div>';
+    if(capClip){const cap=card.querySelector('.cap'),more=card.querySelector('.more');more.onclick=()=>{cap.classList.toggle('open');cap.classList.toggle('clip');more.textContent=cap.classList.contains('open')?'Skryt':'Zobrazit cely popisek';};}
+    grid.appendChild(card);
+  });
+}
+render();
+</script>
+</body>
+</html>
