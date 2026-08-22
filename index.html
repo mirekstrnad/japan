@@ -352,7 +352,8 @@ function switchUser(u){
   if(u===ME) return;
   ME=u; localStorage.setItem('jp_user',ME);
   let cached={}; try{cached=JSON.parse(localStorage.getItem('jp_my_'+ME)||'{}')||{};}catch(e){cached={};}
-  MY=(THEM[ME]&&Object.keys(THEM[ME]).length)?Object.assign({},THEM[ME]):cached;
+  MY=THEM[ME]?Object.assign({},THEM[ME]):cached;
+  dirty=false; lastSent=null;
   localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));
   renderUsers(); paintVotes(); applyAll(); pull();
 }
@@ -413,11 +414,12 @@ document.addEventListener('click',e=>{
   const id=b.closest('.vote').dataset.id, val=b.dataset.v;
   if(MY[id]===val) delete MY[id]; else MY[id]=val;
   localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));
+  dirty=true;
   paintVotes();
   if(voteFilter) applyAll();
   push();
 });
-let pushT=null, pushing=false, lastSent=null;
+let pushT=null, pushing=false, lastSent=null, dirty=false;
 function push(){
   if(!VOTE_API||VOTE_API.indexOf('http')!==0||!ME) return;
   clearTimeout(pushT);
@@ -429,7 +431,7 @@ function push(){
     try{
       const r=await fetch(VOTE_API+'?k='+encodeURIComponent(VKEY),{method:'POST',headers:{'Content-Type':'application/json'},body:payload});
       if(!r.ok) throw new Error('HTTP '+r.status);
-      lastSent=payload;
+      lastSent=payload; dirty=false;
       setStatus('uloženo');
     }catch(err){setStatus('offline — uloženo jen v prohlížeči',true);}
     pushing=false;
@@ -444,7 +446,10 @@ async function pull(force){
     const d=await r.json();
     THEM=d.users||{};
     localStorage.setItem('jp_them',JSON.stringify(THEM));
-    if(ME&&THEM[ME]&&!Object.keys(MY).length){MY=Object.assign({},THEM[ME]);localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));}
+    if(ME&&!dirty&&THEM[ME]){
+      const srv=JSON.stringify(THEM[ME]);
+      if(srv!==JSON.stringify(MY)){MY=Object.assign({},THEM[ME]);localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));}
+    }
     renderUsers(); paintVotes(); if(voteFilter) applyAll();
     setStatus('');
   }catch(err){setStatus('offline — hlasy se neposílají',true);}
