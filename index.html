@@ -111,6 +111,16 @@ footer{margin-top:34px;color:var(--mut);font-size:12px;text-align:center;border-
 .peer .pv.y{color:#7dd3a8;border-color:rgba(125,211,168,.4)}
 .peer .pv.m{color:#e3c26b;border-color:rgba(227,194,107,.4)}
 .peer .pv.n{color:#e8927c;border-color:rgba(232,146,124,.4)}
+.uswitch{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px}
+.ub{padding:6px 15px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;transition:.12s;user-select:none}
+.ub:hover{color:var(--tx)}
+.ub.on{background:var(--acc);color:#fff}
+.agreebtn{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:.12s;user-select:none;display:inline-flex;align-items:center;gap:7px}
+.agreebtn:hover{border-color:#4a5261;color:var(--tx)}
+.agreebtn .n{background:var(--card2);border-radius:999px;padding:1px 8px;font-size:12px}
+.agreebtn.on{background:#2fa37a;border-color:#2fa37a;color:#fff}
+.agreebtn.on .n{background:rgba(0,0,0,.22);color:#fff}
+.peer .pv.ok{color:#0f1115;background:var(--gr);border-color:var(--gr);font-weight:700}
 .vfilter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 2px;font-size:13px;color:var(--mut)}
 .vfilter select{padding:8px 10px;font-size:13.5px}
 .tally{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-left:auto}
@@ -149,7 +159,7 @@ footer{margin-top:34px;color:var(--mut);font-size:12px;text-align:center;border-
     <div class="mode active" data-m="curated">⭐ Jen vybrana mista</div>
     <div class="mode" data-m="all">📍 Vsechny reely podle mest</div>
   </div>
-  <div class="vfilter"><span>Hlasovani:</span><select id="vf-plan" class="vfsel"></select><span class="tally" id="tally-plan"></span></div>
+  <div class="vfilter"><span class="agreebtn"></span><span>Hlasovani:</span><select id="vf-plan" class="vfsel"></select><span class="tally" id="tally-plan"></span></div>
   <div class="chips" id="plancats" style="margin-top:14px"></div>
   <div class="routebar" id="route"></div>
   <div class="tip" id="tip-curated">💡 <b>Doporucena trasa:</b> zacni v Tokiu, pak Shinkansenem do Kjota (baze pro Kjoto + Nara + Uji), dolu do Osaky, a podle chuti pridej vylety Aici/Suzuka nebo dalsi cestu na Fukuoku. Zelene stitky = realna hodnoceni lidi, ostatni je moje skore.</div>
@@ -170,7 +180,7 @@ footer{margin-top:34px;color:var(--mut);font-size:12px;text-align:center;border-
       </select>
     </div>
     <div class="chips" id="chips"></div>
-    <div class="vfilter"><span>Hlasovani:</span><select id="vf-reels" class="vfsel"></select><span class="tally" id="tally-reels"></span></div>
+    <div class="vfilter"><span class="agreebtn"></span><span>Hlasovani:</span><select id="vf-reels" class="vfsel"></select><span class="tally" id="tally-reels"></span></div>
   </div>
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
@@ -222,20 +232,20 @@ function observeThumbs(root){
 
 /* ================= HLASOVANI (sdilene pres Cloudflare Worker) ================= */
 const VOTE_API="https://japan-votes.strnad-mirek.workers.dev";
+const USERS=["Mirek","Daniela"];
 const VLAB={y:"Chci",m:"Mozna",n:"Nechci"};
 let ME=localStorage.getItem('jp_user')||'';
+if(USERS.indexOf(ME)<0) ME='';
 let VKEY=localStorage.getItem('jp_key')||'';
 let MY={}, THEM={}, voteFilter='';
-try{MY=JSON.parse(localStorage.getItem('jp_my')||'{}')||{};}catch(e){MY={};}
+try{MY=JSON.parse(localStorage.getItem('jp_my_'+ME)||'{}')||{};}catch(e){MY={};}
 try{THEM=JSON.parse(localStorage.getItem('jp_them')||'{}')||{};}catch(e){THEM={};}
 
 (function readHash(){
-  const h=location.hash.replace(/^#/,'');
-  if(!h) return;
-  const p=new URLSearchParams(h);
-  let hit=false;
+  const h=location.hash.replace(/^#/,''); if(!h) return;
+  const p=new URLSearchParams(h); let hit=false;
   if(p.get('key')){VKEY=p.get('key');localStorage.setItem('jp_key',VKEY);hit=true;}
-  if(p.get('me')){ME=p.get('me');localStorage.setItem('jp_user',ME);hit=true;}
+  if(p.get('me')&&USERS.indexOf(p.get('me'))>=0){ME=p.get('me');localStorage.setItem('jp_user',ME);hit=true;}
   if(hit) history.replaceState(null,'',location.pathname+location.search);
 })();
 
@@ -243,36 +253,39 @@ function setStatus(txt,err){const e=document.querySelector('#mebar .st');if(e){e
 
 function renderMebar(){
   const el=document.getElementById('mebar');
-  if(!ME){
-    el.innerHTML='<span class="who">Kdo jsi? Zadej jmeno, at vime, ci je ktery hlas:</span>'+
-      '<input id="me-in" placeholder="napr. Mirek" maxlength="24">'+
-      '<button id="me-save">Ulozit</button><span class="st"></span>';
-    const inp=el.querySelector('#me-in');
-    const save=()=>{const v=inp.value.trim();if(!v)return;ME=v;localStorage.setItem('jp_user',ME);renderMebar();pull();};
-    el.querySelector('#me-save').onclick=save;
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter')save();});
-    inp.focus();
-  }else{
-    const others=Object.keys(THEM).filter(u=>u!==ME);
-    el.innerHTML='<span class="who">Hlasujes jako</span> <b>'+esc(ME)+'</b>'+
-      (others.length?'<span class="who">· spolu s '+esc(others.join(', '))+'</span>':'<span class="who">· zatim tu nikdo dalsi nehlasoval</span>')+
-      '<button class="ghost" id="me-share">Zkopirovat odkaz pro dalsiho</button>'+
-      '<button class="ghost" id="me-change">Zmenit jmeno</button>'+
-      '<span class="st"></span>';
-    el.querySelector('#me-change').onclick=()=>{ME='';localStorage.removeItem('jp_user');renderMebar();};
-    el.querySelector('#me-share').onclick=()=>{
-      const link=location.origin+location.pathname+'#key='+encodeURIComponent(VKEY);
-      navigator.clipboard.writeText(link).then(()=>setStatus('Odkaz zkopirovan do schranky'),()=>setStatus('Odkaz: '+link));
-    };
-  }
+  el.innerHTML='<span class="who">Hlasujes jako</span>'+
+    '<span class="uswitch">'+USERS.map(u=>'<span class="ub'+(u===ME?' on':'')+'" data-u="'+u+'">'+u+'</span>').join('')+'</span>'+
+    (ME?'':'<span class="who">← vyber sebe, pak muzes hlasovat</span>')+
+    '<button class="ghost" id="me-share">Zkopirovat odkaz pro druheho</button>'+
+    '<span class="st"></span>';
+  el.querySelectorAll('.ub').forEach(b=>{b.onclick=()=>switchUser(b.dataset.u);});
+  const sh=el.querySelector('#me-share');
+  if(sh) sh.onclick=()=>{
+    const link=location.origin+location.pathname+'#key='+encodeURIComponent(VKEY);
+    navigator.clipboard.writeText(link).then(()=>setStatus('Odkaz zkopirovan'),()=>setStatus('Odkaz: '+link));
+  };
+}
+function switchUser(u){
+  if(u===ME) return;
+  ME=u; localStorage.setItem('jp_user',ME);
+  let cached={}; try{cached=JSON.parse(localStorage.getItem('jp_my_'+ME)||'{}')||{};}catch(e){cached={};}
+  MY=(THEM[ME]&&Object.keys(THEM[ME]).length)?Object.assign({},THEM[ME]):cached;
+  localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));
+  renderMebar(); rerenderAll(); pull();
 }
 
 function voteId(url){return reelCode(url);}
-function myVote(id){return MY[id]||'';}
+function voteOf(u,id){ if(u===ME) return MY[id]||''; const m=THEM[u]||{}; return m[id]||''; }
+function myVote(id){return ME?(MY[id]||''):'';}
 function peersFor(id){
   const out=[];
-  Object.keys(THEM).forEach(u=>{ if(u===ME) return; const v=THEM[u]&&THEM[u][id]; if(v) out.push([u,v]); });
+  USERS.forEach(u=>{ if(u===ME) return; const v=voteOf(u,id); if(v) out.push([u,v]); });
   return out;
+}
+function isAgreed(id){return USERS.every(u=>voteOf(u,id)==='y');}
+function isConflict(id){
+  const a=voteOf(USERS[0],id), b=voteOf(USERS[1],id);
+  return (a==='y'&&b==='n')||(a==='n'&&b==='y');
 }
 function voteHtml(url){
   const id=voteId(url); if(!id) return '';
@@ -286,23 +299,21 @@ function paintVotes(root){
   (root||document).querySelectorAll('.vote').forEach(v=>{
     const id=v.dataset.id, mine=myVote(id);
     v.querySelectorAll('.vb').forEach(b=>b.classList.toggle('on',b.dataset.v===mine));
-    const pe=v.querySelector('.peer');
     const ps=peersFor(id);
-    pe.innerHTML=ps.map(([u,val])=>'<span class="pv '+val+'">'+esc(u)+': '+VLAB[val]+'</span>').join('');
+    v.querySelector('.peer').innerHTML=
+      (isAgreed(id)?'<span class="pv ok">✓ shoda</span>':'')+
+      ps.map(function(x){return '<span class="pv '+x[1]+'">'+esc(x[0])+': '+VLAB[x[1]]+'</span>';}).join('');
   });
   paintTally();
 }
 function paintTally(){
-  const ids=new Set(Object.keys(MY)); Object.keys(THEM).forEach(u=>{if(u!==ME)Object.keys(THEM[u]||{}).forEach(i=>ids.add(i));});
-  let both=0,conf=0,mineY=0;
-  ids.forEach(id=>{
-    const m=myVote(id), ps=peersFor(id);
-    if(m==='y')mineY++;
-    if(m==='y'&&ps.some(([,v])=>v==='y'))both++;
-    if(m&&ps.some(([,v])=>(v==='y'&&m==='n')||(v==='n'&&m==='y')))conf++;
-  });
-  const txt='<span>Tve \u{1F44D}: <b>'+mineY+'</b></span><span>Shoda: <b>'+both+'</b></span><span>Neshoda: <b>'+conf+'</b></span>';
+  const ids=new Set();
+  USERS.forEach(u=>{const m=(u===ME?MY:(THEM[u]||{}));Object.keys(m||{}).forEach(i=>ids.add(i));});
+  let agreed=0,conf=0,mineY=0;
+  ids.forEach(id=>{ if(myVote(id)==='y')mineY++; if(isAgreed(id))agreed++; if(isConflict(id))conf++; });
+  const txt='<span>Tve \u{1F44D}: <b>'+mineY+'</b></span><span>Shoda: <b>'+agreed+'</b></span><span>Neshoda: <b>'+conf+'</b></span>';
   ['tally-plan','tally-reels'].forEach(i=>{const e=document.getElementById(i);if(e)e.innerHTML=txt;});
+  document.querySelectorAll('.agreebtn .n').forEach(e=>{e.textContent=agreed;});
 }
 function passVote(url){
   if(!voteFilter) return true;
@@ -311,19 +322,25 @@ function passVote(url){
   if(voteFilter==='my-y') return m==='y';
   if(voteFilter==='my-m') return m==='m';
   if(voteFilter==='my-n') return m==='n';
-  if(voteFilter==='both-y') return m==='y'&&ps.some(([,v])=>v==='y');
-  if(voteFilter==='conflict') return !!m&&ps.some(([,v])=>(v==='y'&&m==='n')||(v==='n'&&m==='y'));
+  if(voteFilter==='both-y') return isAgreed(id);
+  if(voteFilter==='conflict') return isConflict(id);
   if(voteFilter==='none') return !m&&!ps.length;
   return true;
+}
+function setFilter(v){
+  voteFilter=v;
+  document.querySelectorAll('.vfsel').forEach(o=>{o.value=v;});
+  document.querySelectorAll('.agreebtn').forEach(b=>b.classList.toggle('on',v==='both-y'));
+  rerenderAll();
 }
 
 /* klik na hlas */
 document.addEventListener('click',e=>{
   const b=e.target.closest('.vb'); if(!b) return;
-  if(!ME){setStatus('Nejdriv zadej sve jmeno nahore',true);document.getElementById('mebar').scrollIntoView({behavior:'smooth',block:'center'});return;}
-  const box=b.closest('.vote'), id=box.dataset.id, val=b.dataset.v;
+  if(!ME){setStatus('Nejdriv nahore vyber, kdo jsi',true);document.getElementById('mebar').scrollIntoView({behavior:'smooth',block:'center'});return;}
+  const id=b.closest('.vote').dataset.id, val=b.dataset.v;
   if(MY[id]===val) delete MY[id]; else MY[id]=val;
-  localStorage.setItem('jp_my',JSON.stringify(MY));
+  localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));
   paintVotes();
   if(voteFilter) rerenderAll();
   push();
@@ -335,7 +352,7 @@ function push(){
   if(!VOTE_API||VOTE_API.indexOf('http')!==0||!ME) return;
   clearTimeout(pushT);
   pushT=setTimeout(async()=>{
-    if(pushing) {push();return;}
+    if(pushing){push();return;}
     pushing=true; setStatus('Ukladam...');
     try{
       const r=await fetch(VOTE_API+'?k='+encodeURIComponent(VKEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:ME,votes:MY})});
@@ -353,7 +370,7 @@ async function pull(){
     const d=await r.json();
     THEM=d.users||{};
     localStorage.setItem('jp_them',JSON.stringify(THEM));
-    if(ME&&THEM[ME]&&!Object.keys(MY).length){MY=THEM[ME];localStorage.setItem('jp_my',JSON.stringify(MY));}
+    if(ME&&THEM[ME]&&!Object.keys(MY).length){MY=Object.assign({},THEM[ME]);localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));}
     renderMebar(); paintVotes(); if(voteFilter) rerenderAll();
     setStatus('');
   }catch(err){setStatus('Offline - hlasy se neposilaji',true);}
@@ -361,10 +378,14 @@ async function pull(){
 function rerenderAll(){renderCurated();renderAll();render();}
 
 /* filtr */
-const VF=[['','Vse'],['my-y','Moje: chci'],['my-m','Moje: mozna'],['my-n','Moje: nechci'],['both-y','Shodli jsme se (oba chci)'],['conflict','Neshoda'],['none','Zatim nehodnoceno']];
+const VF=[['','Vse'],['my-y','Moje: chci'],['my-m','Moje: mozna'],['my-n','Moje: nechci'],['both-y','Shodli jsme se'],['conflict','Neshoda'],['none','Zatim nehodnocene']];
 document.querySelectorAll('.vfsel').forEach(sel=>{
-  sel.innerHTML=VF.map(([v,l])=>'<option value="'+v+'">'+l+'</option>').join('');
-  sel.onchange=()=>{voteFilter=sel.value;document.querySelectorAll('.vfsel').forEach(o=>{o.value=voteFilter;});rerenderAll();};
+  sel.innerHTML=VF.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('');
+  sel.onchange=()=>setFilter(sel.value);
+});
+document.querySelectorAll('.agreebtn').forEach(b=>{
+  b.innerHTML='✓ Jen nase shoda <span class="n">0</span>';
+  b.onclick=()=>setFilter(voteFilter==='both-y'?'':'both-y');
 });
 
 function esc(t){return (t||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
