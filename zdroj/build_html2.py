@@ -5,6 +5,15 @@ _p=lambda n: os.path.join(_D,n)
 import json
 rows=json.load(open(_p('reels_rated.json')))
 
+# reely, ktere se do prehledu nemaji dostat (odstraneno na prani)
+EXCLUDE_URLS={
+ "https://www.instagram.com/reel/DbLHo7vSUiE/",   # autor 筒水 一成
+}
+_before=len(rows)
+rows=[r for r in rows if r['url'] not in EXCLUDE_URLS]
+if _before!=len(rows): print('vynechano',_before-len(rows),'reelu')
+
+
 CATS=['Vše','Jídlo & kavárny','Atrakce & zážitky','Auta / JDM','Nakupování & anime','Vlaky & doprava','Hotely & ubytování','Tipy & rady','Ostatní']
 CAT_COLORS={'Jídlo & kavárny':'#e8623d','Atrakce & zážitky':'#3b82c4','Auta / JDM':'#8b5cf6','Nakupování & anime':'#e0699f','Vlaky & doprava':'#2fa37a','Hotely & ubytování':'#c99a2e','Tipy & rady':'#6b7280','Ostatní':'#94a3b8'}
 

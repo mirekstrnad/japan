@@ -236,7 +236,7 @@ footer{margin-top:44px;color:var(--dim);font-size:12px;text-align:center;border-
   <div class="chips" id="plancats"></div>
   <div class="route" id="route"></div>
   <div class="tip" id="tip-curated" style="display:none"><b>Doporučená trasa:</b> začni v Tokiu, pak šinkansenem do Kjóta (základna pro Kjóto, Naru i Uji), dolů do Ósaky, a podle chuti přidej výlety na Aiči a Suzuku nebo delší cestu na Fukuoku. Zelené štítky jsou reálná hodnocení lidí, ostatní je kurátorské skóre.</div>
-  <div class="tip" id="tip-all"><b>Všech 204 reelů</b> rozdělených podle města, které se v nich zmiňuje. Kliknutím na město seznam sbalíš nebo rozbalíš. Co nemá jasné město, najdeš v „Celé Japonsko / neurčeno".</div>
+  <div class="tip" id="tip-all"><b>Všech <span id="tot2"></span> reelů</b> rozdělených podle města, které se v nich zmiňuje. Kliknutím na město seznam sbalíš nebo rozbalíš. Co nemá jasné město, najdeš v „Celé Japonsko / neurčeno".</div>
   <div id="plan" style="display:none"></div>
   <div id="plan-all"></div>
 </div>
@@ -269,6 +269,7 @@ footer{margin-top:44px;color:var(--dim);font-size:12px;text-align:center;border-
 const DATA=__DATA__, CC=__COLORS__, CATS=__CATS__, PLAN=__PLAN__;
 let activeCat="Vše", q="", sort="score";
 document.getElementById('tot').textContent=DATA.length;
+document.getElementById('tot2').textContent=DATA.length;
 
 const KANJI={"Tokio":"東京","Tokio & okolí":"東京","Kjóto":"京都","Kjóto + Uji":"京都","Nara":"奈良","Ósaka":"大阪",
 "Nagoja / Aiči":"愛知","Aiči / Nagoja":"愛知","Suzuka / Mie":"三重","Hakone / Fudži":"富士","Jokohama":"横浜",
