@@ -417,23 +417,27 @@ document.addEventListener('click',e=>{
   if(voteFilter) applyAll();
   push();
 });
-let pushT=null, pushing=false;
+let pushT=null, pushing=false, lastSent=null;
 function push(){
   if(!VOTE_API||VOTE_API.indexOf('http')!==0||!ME) return;
   clearTimeout(pushT);
   pushT=setTimeout(async()=>{
     if(pushing){push();return;}
+    const payload=JSON.stringify({user:ME,votes:MY});
+    if(payload===lastSent){pushing=false;return;}
     pushing=true; setStatus('ukládám…');
     try{
-      const r=await fetch(VOTE_API+'?k='+encodeURIComponent(VKEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:ME,votes:MY})});
+      const r=await fetch(VOTE_API+'?k='+encodeURIComponent(VKEY),{method:'POST',headers:{'Content-Type':'application/json'},body:payload});
       if(!r.ok) throw new Error('HTTP '+r.status);
+      lastSent=payload;
       setStatus('uloženo');
     }catch(err){setStatus('offline — uloženo jen v prohlížeči',true);}
     pushing=false;
-  },700);
+  },1200);
 }
-async function pull(){
+async function pull(force){
   if(!VOTE_API||VOTE_API.indexOf('http')!==0) return;
+  if(!force&&document.hidden) return;
   try{
     const r=await fetch(VOTE_API+'?k='+encodeURIComponent(VKEY),{cache:'no-store'});
     if(!r.ok) throw new Error('HTTP '+r.status);
@@ -670,9 +674,9 @@ document.getElementById('sort').addEventListener('change',e=>{sortMode=e.target.
 renderUsers();
 buildGrid(); applyGrid();
 paintTally();
-pull();
-setInterval(pull,15000);
-window.addEventListener('focus',pull);
+pull(true);
+setInterval(()=>pull(),20000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull(true);});
 let evT=null;
 window.addEventListener('scroll',()=>{clearTimeout(evT);evT=setTimeout(evict,400);},{passive:true});
 </script>
