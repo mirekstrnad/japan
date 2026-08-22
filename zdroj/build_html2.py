@@ -8,6 +8,7 @@ rows=json.load(open(_p('reels_rated.json')))
 # reely, ktere se do prehledu nemaji dostat (odstraneno na prani)
 EXCLUDE_URLS={
  "https://www.instagram.com/reel/DbLHo7vSUiE/",   # autor 筒水 一成
+ "https://www.instagram.com/p/DLNUtHQocKL/",      # Porsche Museum (Nemecko, ne Japonsko)
 }
 _before=len(rows)
 rows=[r for r in rows if r['url'] not in EXCLUDE_URLS]
