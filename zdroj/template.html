@@ -37,8 +37,8 @@ h1{font-size:26px;font-weight:700;letter-spacing:-.4px}
 .citymeta{font-size:12.5px;color:var(--mut)}
 .legtag{margin-left:auto;font-size:11.5px;font-weight:700;color:#fff;background:var(--acc);padding:3px 11px;border-radius:999px}
 .legdesc{font-size:13px;color:var(--mut);padding:11px 18px 4px}
-.plist{padding:6px 18px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
-.pl{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 13px;display:flex;flex-direction:column;gap:7px;position:relative}
+.plist{padding:6px 18px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:11px}
+.pl{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 13px;position:relative}
 .pl:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;background:var(--pc,#555)}
 .pl .kn{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .pl .nm{font-weight:650;font-size:14.5px;line-height:1.25}
@@ -67,8 +67,8 @@ select{background:var(--card);border:1px solid var(--line);color:var(--tx);paddi
 .chip:hover{border-color:#3d4452;color:var(--tx)}
 .chip.active{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
 .count{color:var(--mut);font-size:13px;margin:14px 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;position:relative;overflow:hidden}
 .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cbar,#333)}
 .chead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .owner{font-weight:650;font-size:14.5px;line-height:1.3}
@@ -89,6 +89,18 @@ select{background:var(--card);border:1px solid var(--line);color:var(--tx);paddi
 .btn:hover{filter:brightness(1.08)}
 .empty{text-align:center;color:var(--mut);padding:50px 0}
 footer{margin-top:34px;color:var(--mut);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:18px}
+/* THUMBNAILS (lazy Instagram embeds) */
+.thumb{position:relative;overflow:hidden;border-radius:10px;background:#0b0d11;border:1px solid var(--line);flex:0 0 auto;width:104px;height:185px}
+.thumb .fr{position:absolute;top:-15px;left:0;transform:scale(.319);transform-origin:0 0}
+.thumb iframe{width:326px;height:660px;border:0;display:block;background:#0b0d11}
+.thumb .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#39404e;font-size:19px}
+.plrow{display:flex;gap:11px}
+.plbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.crow{display:flex;gap:13px}
+.cbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:9px}
+.card .thumb{width:120px;height:213px}
+.card .thumb .fr{transform:scale(.368);top:-17px}
+@media(max-width:520px){.thumb{width:88px;height:157px}.thumb .fr{transform:scale(.27);top:-12px}.card .thumb{width:96px;height:171px}.card .thumb .fr{transform:scale(.294);top:-14px}}
 @media(max-width:520px){.grid,.plist{grid-template-columns:1fr}h1{font-size:22px}.legtag{margin-left:0}}
 </style>
 </head>
@@ -153,6 +165,31 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   window.scrollTo({top:0});
 });
 
+/* ---- lazy Instagram thumbnails ---- */
+function reelCode(u){const m=/\/reel\/([A-Za-z0-9_-]+)/.exec(u||'');return m?m[1]:'';}
+function thumbHtml(u){const c=reelCode(u);return c?('<div class="thumb" data-c="'+c+'"><div class="ph">\u25B6</div></div>'):'<div class="thumb"><div class="ph">\u25B6</div></div>';}
+const ioNear=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(!e.isIntersecting) return;
+  const el=e.target;
+  if(el.dataset.loaded||!el.dataset.c) return;
+  el.dataset.loaded='1';
+  const f=document.createElement('iframe');
+  f.src='https://www.instagram.com/reel/'+el.dataset.c+'/embed/';
+  f.loading='lazy'; f.setAttribute('scrolling','no'); f.setAttribute('allowfullscreen','');
+  const w=document.createElement('div'); w.className='fr'; w.appendChild(f);
+  el.appendChild(w);
+});},{rootMargin:'500px 0px'});
+const ioFar=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(e.isIntersecting) return;
+  const el=e.target,fr=el.querySelector('.fr');
+  if(fr){fr.remove();delete el.dataset.loaded;}
+});},{rootMargin:'1500px 0px'});
+function observeThumbs(root){
+  (root||document).querySelectorAll('.thumb[data-c]:not([data-obs])').forEach(t=>{
+    t.dataset.obs='1'; ioNear.observe(t); ioFar.observe(t);
+  });
+}
+
 function esc(t){return (t||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function stars(s){let out="";for(let i=1;i<=5;i++){out+= s>=i?"★":(s>=i-0.5?"½":"☆");}return out;}
 
@@ -172,11 +209,14 @@ function renderCurated(){
     const cards=places.map(pp=>{
       const rb = pp.real ? '<span class="rb real">'+esc(pp.badge)+'</span>'
                          : (pp.badge?('<span class="rb score">'+esc(pp.badge)+'</span>'):'');
-      return '<div class="pl" style="--pc:'+pp.col+'">'+
+      return '<div class="pl" style="--pc:'+pp.col+'"><div class="plrow">'+
+        thumbHtml(pp.url)+
+        '<div class="plbody">'+
         '<div class="kn"><span class="nm">'+esc(pp.name)+'</span><span class="kd">'+esc(pp.kind)+'</span></div>'+
         rb+
         (pp.note?'<div class="nt">'+esc(pp.note)+'</div>':'')+
         '<div class="lnks"><a class="reel" href="'+esc(pp.url)+'" target="_blank" rel="noopener">▶ Reel</a>'+mapsLink(pp.gmap,'map')+'</div>'+
+        '</div></div>'+
       '</div>';
     }).join('');
     return '<div class="leg">'+
@@ -187,6 +227,7 @@ function renderCurated(){
       '<div class="plist">'+cards+'</div>'+
     '</div>';
   }).join('') || '<div class="empty">V teto kategorii nejsou vybrana mista - zkus zalozku "Vsechny reely podle mest".</div>';
+  observeThumbs(document.getElementById('plan'));
 }
 
 /* plan: all reels grouped by city */
@@ -201,11 +242,14 @@ function renderAll(){
     const cards=items.map(r=>{
       const col=CC[r.cat]||'#888';
       const badge=r.place?('<span class="rb real">'+esc(r.ext&&r.ext!=='-'?r.ext:r.place)+'</span>'):('<span class="rb score">'+r.score.toFixed(1).replace('.',',')+'/5 '+stars(r.score)+'</span>');
-      return '<div class="pl" style="--pc:'+col+'">'+
+      return '<div class="pl" style="--pc:'+col+'"><div class="plrow">'+
+        thumbHtml(r.url)+
+        '<div class="plbody">'+
         '<div class="kn"><span class="nm">'+esc(r.place||r.owner)+'</span><span class="kd">'+esc(r.cat)+'</span></div>'+
         badge+
         (r.note?'<div class="nt">'+esc(r.note)+'</div>':'')+
         '<div class="lnks"><a class="reel" href="'+esc(r.url)+'" target="_blank" rel="noopener">▶ Reel</a>'+mapsLink(r.gmap,'map')+'</div>'+
+        '</div></div>'+
       '</div>';
     }).join('');
     const collapsed = (c==='Cele Japonsko / neurceno');
@@ -217,6 +261,7 @@ function renderAll(){
     '</div>';
   }).join('');
   document.getElementById('plan-all').innerHTML = html || '<div class="empty">V teto kategorii nic neni.</div>';
+  observeThumbs(document.getElementById('plan-all'));
 }
 
 /* plan category chips */
@@ -274,15 +319,18 @@ function render(){
     const noteHtml=r.note?('<div class="note">'+esc(r.note)+'</div>'):'';
     const tagsHtml=r.tags.length?('<div class="tags">'+r.tags.map(t=>'<span class="tag">#'+esc(t)+'</span>').join('')+'</div>'):'';
     const capClip=(r.cap||'').length>150;
-    card.innerHTML='<div class="chead"><div class="owner">'+esc(r.owner)+'</div><span class="catbadge" style="background:'+col+'">'+esc(r.cat)+'</span></div>'+
+    card.innerHTML='<div class="crow">'+thumbHtml(r.url)+'<div class="cbody">'+
+      '<div class="chead"><div class="owner">'+esc(r.owner)+'</div><span class="catbadge" style="background:'+col+'">'+esc(r.cat)+'</span></div>'+
       '<div class="stars">'+stars(r.score)+'<span class="num">'+r.score.toFixed(1).replace('.',',')+'/5</span></div>'+
       placeHtml+noteHtml+
       (r.cap?('<div class="cap'+(capClip?' clip':'')+'">'+esc(r.cap)+'</div>'+(capClip?'<span class="more">Zobrazit cely popisek</span>':'')):'')+
       tagsHtml+
-      '<div class="foot">'+(r.gmap?'<a class="maplink" href="'+esc(r.gmap)+'" target="_blank" rel="noopener">🗺️ Mapy</a>':'')+'<a class="btn" href="'+esc(r.url)+'" target="_blank" rel="noopener">Otevrit reel →</a></div>';
+      '<div class="foot">'+(r.gmap?'<a class="maplink" href="'+esc(r.gmap)+'" target="_blank" rel="noopener">🗺️ Mapy</a>':'')+'<a class="btn" href="'+esc(r.url)+'" target="_blank" rel="noopener">Otevrit reel →</a></div>'+
+      '</div></div>';
     if(capClip){const cap=card.querySelector('.cap'),more=card.querySelector('.more');more.onclick=()=>{cap.classList.toggle('open');cap.classList.toggle('clip');more.textContent=cap.classList.contains('open')?'Skryt':'Zobrazit cely popisek';};}
     grid.appendChild(card);
   });
+  observeThumbs(grid);
 }
 render();
 </script>
