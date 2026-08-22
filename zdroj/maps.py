@@ -7,11 +7,11 @@ rows=json.load(open(_p('reels_rated.json')))
 data=json.load(open(_p('japonsko.json')))
 
 CITY_HINT={
- "Tokio":"Tokyo","Kjoto":"Kyoto","Osaka":"Osaka","Nara":"Nara","Nagoya / Aici":"Nagoya",
- "Suzuka / Mie":"Suzuka","Hakone / Fuji":"Mount Fuji","Jokohama":"Yokohama",
- "Kamakura / Enoshima":"Kamakura","Kawagoe (Saitama)":"Kawagoe","Kanazawa":"Kanazawa",
- "Fukuoka / Kjusu":"Fukuoka","Hirosima / Mijadzima":"Hiroshima","Aomori / Tohoku":"Aomori",
- "Wakayama":"Wakayama","Hokkaido":"Hokkaido","Cele Japonsko / neurceno":""}
+ "Tokio":"Tokyo","Kjóto":"Kyoto","Ósaka":"Osaka","Nara":"Nara","Nagoja / Aiči":"Nagoya",
+ "Suzuka / Mie":"Suzuka","Hakone / Fudži":"Mount Fuji","Jokohama":"Yokohama",
+ "Kamakura / Enošima":"Kamakura","Kawagoe (Saitama)":"Kawagoe","Kanazawa":"Kanazawa",
+ "Fukuoka / Kjúšú":"Fukuoka","Hirošima / Mijadžima":"Hiroshima","Aomori / Tóhoku":"Aomori",
+ "Wakajama":"Wakayama","Hokkaidó":"Hokkaido","Celé Japonsko / neurčeno":""}
 
 # manual precise queries for verified places (best geocoding)
 MANUAL={

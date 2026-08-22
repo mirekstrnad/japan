@@ -3,211 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Japonsko - plan a prehled reels</title>
+<title>Japonsko — plán cesty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif:wght@400;600;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1115;--card:#1a1d24;--card2:#20242d;--line:#2a2f3a;--tx:#e7e9ee;--mut:#9aa2b1;--acc:#e8623d;--gr:#7dd3a8;}
+:root{
+  --bg:#12100f; --bg2:#171413; --card:#1e1a18; --card2:#241f1c; --line:#332c27; --line2:#443b34;
+  --tx:#ece7e0; --mut:#a2988e; --dim:#7d736b;
+  --shu:#d5462f;        /* 朱 vermilion */
+  --shu-soft:rgba(213,70,47,.13);
+  --gold:#c9a227;       /* 金 */
+  --matcha:#78ae86;     /* 松葉 */
+  --ai:#5b7fb0;         /* 藍 */
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --serif:'Noto Serif',Georgia,'Times New Roman',serif;
+  --jp:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho',serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;padding:0 0 60px}
-.wrap{max-width:1150px;margin:0 auto;padding:0 18px}
-header{padding:34px 0 16px;border-bottom:1px solid var(--line);margin-bottom:18px}
-h1{font-size:26px;font-weight:700;letter-spacing:-.4px}
-.sub{color:var(--mut);font-size:14px;margin-top:6px}
-.tabs{display:flex;gap:8px;margin:18px 0 8px}
-.tab{flex:0 0 auto;background:var(--card);border:1px solid var(--line);color:var(--mut);padding:11px 20px;border-radius:11px;font-size:14.5px;font-weight:600;cursor:pointer;transition:.15s}
-.tab:hover{color:var(--tx);border-color:#3d4452}
-.tab.active{background:var(--acc);border-color:var(--acc);color:#fff}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);line-height:1.55;padding:0 0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+
+/* ---------- HLAVICKA ---------- */
+.hd{position:relative;padding:44px 0 26px;overflow:hidden}
+.hd:before{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'><g fill='none' stroke='%23d5462f' stroke-opacity='.13' stroke-width='1'><path d='M0 30a15 15 0 0 1 30 0 15 15 0 0 1 30 0'/><path d='M0 22a15 15 0 0 1 30 0 15 15 0 0 1 30 0'/><path d='M0 14a15 15 0 0 1 30 0 15 15 0 0 1 30 0'/></g></svg>");
+  mask-image:linear-gradient(180deg,#000,transparent 85%);-webkit-mask-image:linear-gradient(180deg,#000,transparent 85%)}
+.hdrow{position:relative;display:flex;align-items:flex-start;gap:20px}
+.kanji-mark{font-family:var(--jp);font-size:44px;line-height:1;color:var(--shu);letter-spacing:2px;writing-mode:vertical-rl;text-orientation:upright;opacity:.9;flex:0 0 auto;margin-top:2px}
+h1{font-family:var(--serif);font-size:34px;font-weight:700;letter-spacing:-.5px;line-height:1.15}
+h1 .thin{color:var(--mut);font-weight:400}
+.sub{color:var(--mut);font-size:14.5px;margin-top:10px;max-width:70ch}
+.sub b{color:var(--tx);font-weight:600}
+.rule{height:1px;background:linear-gradient(90deg,var(--shu),var(--line) 38%,transparent);margin:22px 0 0}
+
+/* ---------- STICKY LISTA ---------- */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(18,16,15,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-bottom:22px}
+.topin{max-width:1180px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:3px}
+.tab{padding:8px 17px;border-radius:7px;font-size:14px;font-weight:600;color:var(--mut);cursor:pointer;transition:.14s;user-select:none;white-space:nowrap}
+.tab:hover{color:var(--tx)}
+.tab.active{background:var(--shu);color:#fff}
+.who{color:var(--dim);font-size:13px}
+.uswitch{display:inline-flex;background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:3px}
+.ub{padding:7px 15px;border-radius:7px;font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;transition:.14s;user-select:none}
+.ub:hover{color:var(--tx)}
+.ub.on{background:var(--tx);color:var(--bg)}
+.st{font-size:12px;color:var(--dim);margin-left:auto;white-space:nowrap}
+.st.err{color:var(--shu)}
+.linkbtn{background:none;border:1px solid var(--line);color:var(--mut);padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:.14s}
+.linkbtn:hover{border-color:var(--line2);color:var(--tx)}
 .section{display:none}
 .section.show{display:block}
 
-/* PLAN */
-.modebar{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;margin:6px 0 4px}
-.mode{padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;transition:.15s;user-select:none}
+/* ---------- FILTRY ---------- */
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+.agreebtn{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:9px 15px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.14s;user-select:none;display:inline-flex;align-items:center;gap:8px}
+.agreebtn:hover{border-color:var(--matcha);color:var(--tx)}
+.agreebtn .n{background:var(--card2);border-radius:6px;padding:1px 8px;font-size:12px;font-variant-numeric:tabular-nums}
+.agreebtn.on{background:var(--matcha);border-color:var(--matcha);color:#10231a}
+.agreebtn.on .n{background:rgba(0,0,0,.2);color:#10231a}
+select,input[type=search]{background:var(--card);border:1px solid var(--line);color:var(--tx);padding:9px 12px;border-radius:8px;font-size:13.5px;font-family:inherit;outline:none}
+select:focus,input[type=search]:focus{border-color:var(--shu)}
+input[type=search]{flex:1;min-width:210px;padding:10px 14px;font-size:14px}
+.tally{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--dim);margin-left:auto;font-variant-numeric:tabular-nums}
+.tally b{color:var(--tx);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 16px}
+.chip{background:transparent;border:1px solid var(--line);color:var(--mut);padding:6px 13px;border-radius:999px;font-size:12.5px;cursor:pointer;transition:.14s;user-select:none;display:inline-flex;align-items:center;gap:7px}
+.chip:hover{border-color:var(--line2);color:var(--tx)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--cd,transparent)}
+.chip.active{background:var(--tx);border-color:var(--tx);color:var(--bg);font-weight:600}
+.chip.active .dot{background:var(--bg)}
+.modebar{display:inline-flex;gap:2px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:14px}
+.mode{padding:8px 15px;border-radius:7px;font-size:13px;font-weight:600;color:var(--mut);cursor:pointer;transition:.14s;user-select:none}
 .mode:hover{color:var(--tx)}
-.mode.active{background:var(--acc);color:#fff}
+.mode.active{background:var(--card2);color:var(--tx)}
+.legend{font-size:12px;color:var(--dim);margin:0 0 16px}
+.legend b{color:var(--mut);font-weight:500}
+
+/* ---------- TRASA ---------- */
+.route{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 20px;background:var(--bg2)}
+.rstop{flex:1 1 auto;min-width:104px;padding:11px 14px;border-right:1px solid var(--line);text-decoration:none;transition:.14s;display:block}
+.rstop:last-child{border-right:0}
+.rstop:hover{background:var(--card2)}
+.rstop .rk{font-family:var(--jp);font-size:15px;color:var(--shu);line-height:1.1}
+.rstop .rn{font-size:13px;font-weight:600;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rstop .rd{font-size:11px;color:var(--dim);margin-top:1px}
+.tip{background:var(--shu-soft);border-left:2px solid var(--shu);border-radius:0 8px 8px 0;padding:13px 16px;font-size:13.5px;color:#e8d5cd;margin:0 0 24px}
+.tip b{color:#fff}
+
+/* ---------- MESTA ---------- */
+.leg{margin-bottom:30px;scroll-margin-top:130px}
+.leghead{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;padding-bottom:11px;border-bottom:1px solid var(--line);cursor:default}
+.leghead .kj{font-family:var(--jp);font-size:22px;color:var(--shu);line-height:1;flex:0 0 auto}
+.cityname{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:-.3px}
+.citymeta{font-size:12.5px;color:var(--dim)}
+.legtag{margin-left:auto;font-size:11px;font-weight:600;color:var(--gold);border:1px solid rgba(201,162,39,.35);padding:3px 11px;border-radius:999px;letter-spacing:.3px}
+.caret{color:var(--dim);font-size:11px;margin-left:8px;transition:.15s}
+.leg.collapsed .caret{transform:rotate(-90deg)}
 .leg.collapsed .plist,.leg.collapsed .legdesc{display:none}
-.leghead .caret{margin-left:8px;color:var(--mut);font-size:12px;transition:.15s}
-.leg.collapsed .leghead .caret{transform:rotate(-90deg)}
-.routebar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0 22px;font-size:13.5px;color:var(--mut)}
-.routebar b{color:var(--tx)}
-.routebar .arw{color:var(--acc);font-weight:700;margin:0 2px}
-.leg{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0;margin-bottom:16px;overflow:hidden}
-.leghead{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:16px 18px;cursor:pointer;background:var(--card2);border-bottom:1px solid var(--line)}
-.leghead:hover{background:#252a34}
-.cityname{font-size:19px;font-weight:700;letter-spacing:-.2px}
-.citymeta{font-size:12.5px;color:var(--mut)}
-.legtag{margin-left:auto;font-size:11.5px;font-weight:700;color:#fff;background:var(--acc);padding:3px 11px;border-radius:999px}
-.legdesc{font-size:13px;color:var(--mut);padding:11px 18px 4px}
-.plist{padding:6px 18px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:11px}
-.pl{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 13px;position:relative}
-.pl:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;background:var(--pc,#555)}
-.pl .kn{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.pl .nm{font-weight:650;font-size:14.5px;line-height:1.25}
-.pl .kd{font-size:11px;color:var(--mut);white-space:nowrap}
-.pl .rb{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;align-self:flex-start}
-.pl .rb.real{color:#0f1115;background:var(--gr)}
-.pl .rb.score{color:var(--mut);background:var(--card2)}
-.pl .nt{font-size:12.5px;color:#c3ccd9}
-.pl .lnks{display:flex;gap:12px;margin-top:2px;flex-wrap:wrap}
-.pl .lnks a{font-size:12.5px;font-weight:600;text-decoration:none}
-.pl .lnks a.reel{color:var(--acc)}
-.pl .lnks a.map{color:#5aa9ea}
-.pl .lnks a:hover{text-decoration:underline}
-.card .maplink{color:#5aa9ea;text-decoration:none;font-size:13px;font-weight:600;margin-right:auto;align-self:center}
-.card .maplink:hover{text-decoration:underline}
-.tip{background:rgba(232,98,61,.08);border:1px solid rgba(232,98,61,.3);border-radius:12px;padding:13px 16px;font-size:13.5px;color:#f0d7cd;margin:6px 0 20px}
+.legdesc{font-size:13px;color:var(--mut);padding:12px 0 2px}
+.plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(345px,1fr));gap:12px;padding-top:14px}
 
-/* REELS */
-.controls{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg) 78%,rgba(15,17,21,0));padding:12px 0}
-.searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-input[type=search]{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);color:var(--tx);padding:11px 14px;border-radius:10px;font-size:14px;outline:none}
-input[type=search]:focus{border-color:var(--acc)}
-select{background:var(--card);border:1px solid var(--line);color:var(--tx);padding:11px 12px;border-radius:10px;font-size:14px;outline:none}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:7px 13px;border-radius:999px;font-size:13px;cursor:pointer;transition:.15s;user-select:none}
-.chip:hover{border-color:#3d4452;color:var(--tx)}
-.chip.active{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
-.count{color:var(--mut);font-size:13px;margin:14px 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;position:relative;overflow:hidden}
-.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cbar,#333)}
+/* ---------- KARTY ---------- */
+.pl,.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;transition:border-color .14s,background .14s}
+.pl{padding:13px}
+.card{padding:16px;overflow:hidden}
+.pl:hover,.card:hover{border-color:var(--line2)}
+.pl:before,.card:before{content:"";position:absolute;left:0;top:11px;bottom:11px;width:2px;border-radius:2px;background:var(--pc,var(--cbar,#555))}
+.pl.agreed,.card.agreed{background:linear-gradient(90deg,rgba(120,174,134,.09),transparent 42%);border-color:rgba(120,174,134,.38)}
+.plrow,.crow{display:flex;gap:13px}
+.plbody,.cbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.cbody{gap:9px}
+.pl .kn{display:flex;justify-content:space-between;align-items:flex-start;gap:9px}
+.pl .nm{font-family:var(--serif);font-weight:600;font-size:15.5px;line-height:1.25}
+.pl .kd{font-size:11px;color:var(--dim);white-space:nowrap;padding-top:3px}
+.rb{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:5px;align-self:flex-start}
+.rb.real{color:#10231a;background:var(--matcha)}
+.rb.score{color:var(--mut);background:var(--card2);border:1px solid var(--line)}
+.nt{font-size:12.5px;color:#c8bdb3}
+.lnks{display:flex;gap:14px;flex-wrap:wrap}
+.lnks a{font-size:12.5px;font-weight:600;text-decoration:none}
+.lnks a.reel{color:var(--shu)}
+.lnks a.map{color:var(--ai)}
+.lnks a:hover{text-decoration:underline}
 .chead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.owner{font-weight:650;font-size:14.5px;line-height:1.3}
-.catbadge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;color:#fff;opacity:.92}
-.stars{font-size:14px;letter-spacing:1px;color:#f5b301}
-.stars .num{color:var(--mut);font-size:12.5px;letter-spacing:0;margin-left:6px}
-.place{font-size:13px;font-weight:600;color:var(--gr);background:rgba(47,163,122,.12);border:1px solid rgba(47,163,122,.28);padding:6px 9px;border-radius:8px}
-.ext{display:inline-block;font-size:11.5px;font-weight:700;color:#0f1115;background:var(--gr);padding:2px 7px;border-radius:6px;margin-left:6px}
-.note{font-size:12.5px;color:#c9d2df;font-style:italic}
-.cap{font-size:13px;color:var(--mut);white-space:pre-wrap;max-height:64px;overflow:hidden;position:relative;transition:max-height .2s}
+.owner{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.3}
+.catbadge{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;color:#0f0d0c;letter-spacing:.2px}
+.stars{font-size:13px;letter-spacing:1.5px;color:var(--gold)}
+.stars .num{color:var(--dim);font-size:12px;letter-spacing:0;margin-left:7px;font-variant-numeric:tabular-nums}
+.place{font-size:13px;font-weight:600;color:var(--matcha);background:rgba(120,174,134,.09);border:1px solid rgba(120,174,134,.22);padding:6px 10px;border-radius:7px}
+.ext{display:inline-block;font-size:11px;font-weight:700;color:#10231a;background:var(--matcha);padding:1px 7px;border-radius:4px;margin-left:7px}
+.note{font-size:12.5px;color:#c8bdb3;font-style:italic}
+.cap{font-size:12.5px;color:var(--mut);white-space:pre-wrap;max-height:62px;overflow:hidden;position:relative;transition:max-height .2s}
 .cap.open{max-height:1400px}
-.cap.clip:after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:linear-gradient(180deg,rgba(26,29,36,0),var(--card))}
-.more{font-size:12px;color:var(--acc);cursor:pointer;align-self:flex-start;user-select:none}
+.cap.clip:after{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:linear-gradient(180deg,rgba(30,26,24,0),var(--card))}
+.more{font-size:12px;color:var(--shu);cursor:pointer;align-self:flex-start;user-select:none}
 .tags{display:flex;flex-wrap:wrap;gap:5px}
-.tag{font-size:10.5px;color:var(--mut);background:var(--card2);padding:2px 7px;border-radius:5px}
-.foot{margin-top:auto;display:flex;justify-content:flex-end;padding-top:4px}
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--acc);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:9px;transition:.15s}
-.btn:hover{filter:brightness(1.08)}
-.empty{text-align:center;color:var(--mut);padding:50px 0}
-footer{margin-top:34px;color:var(--mut);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:18px}
-/* HLASOVANI */
-.mebar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin:14px 0 4px;font-size:13.5px}
-.mebar b{color:var(--tx)}
-.mebar .who{color:var(--mut)}
-.mebar input{background:var(--bg);border:1px solid var(--line);color:var(--tx);padding:7px 10px;border-radius:8px;font-size:13.5px;outline:none;width:170px}
-.mebar input:focus{border-color:var(--acc)}
-.mebar button{background:var(--acc);color:#fff;border:0;padding:7px 13px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
-.mebar button.ghost{background:var(--card2);color:var(--mut);border:1px solid var(--line)}
-.mebar button.ghost:hover{color:var(--tx)}
-.mebar .st{margin-left:auto;font-size:12px;color:var(--mut)}
-.mebar .st.err{color:#e8623d}
-.vote{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:2px}
-.vb{background:var(--card2);border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:4px 9px;font-size:13px;line-height:1.1;cursor:pointer;transition:.12s;user-select:none}
-.vb:hover{border-color:#4a5261;color:var(--tx)}
-.vb.on.y{background:#2fa37a;border-color:#2fa37a;color:#fff}
-.vb.on.m{background:#c99a2e;border-color:#c99a2e;color:#1a1400}
-.vb.on.n{background:#b04a34;border-color:#b04a34;color:#fff}
-.peer{font-size:11.5px;color:var(--mut);display:inline-flex;gap:5px;flex-wrap:wrap}
-.peer .pv{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:1px 8px;white-space:nowrap}
-.peer .pv.y{color:#7dd3a8;border-color:rgba(125,211,168,.4)}
-.peer .pv.m{color:#e3c26b;border-color:rgba(227,194,107,.4)}
-.peer .pv.n{color:#e8927c;border-color:rgba(232,146,124,.4)}
-.uswitch{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px}
-.ub{padding:6px 15px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--mut);cursor:pointer;transition:.12s;user-select:none}
-.ub:hover{color:var(--tx)}
-.ub.on{background:var(--acc);color:#fff}
-.agreebtn{background:var(--card);border:1px solid var(--line);color:var(--mut);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:.12s;user-select:none;display:inline-flex;align-items:center;gap:7px}
-.agreebtn:hover{border-color:#4a5261;color:var(--tx)}
-.agreebtn .n{background:var(--card2);border-radius:999px;padding:1px 8px;font-size:12px}
-.agreebtn.on{background:#2fa37a;border-color:#2fa37a;color:#fff}
-.agreebtn.on .n{background:rgba(0,0,0,.22);color:#fff}
-.peer .pv.ok{color:#0f1115;background:var(--gr);border-color:var(--gr);font-weight:700}
-.vfilter{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 2px;font-size:13px;color:var(--mut)}
-.vfilter select{padding:8px 10px;font-size:13.5px}
-.tally{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-left:auto}
-.tally b{color:var(--tx)}
+.tag{font-size:10.5px;color:var(--dim);background:var(--card2);padding:2px 7px;border-radius:4px}
+.foot{margin-top:auto;display:flex;align-items:center;gap:12px;padding-top:4px}
+.maplink{color:var(--ai);text-decoration:none;font-size:12.5px;font-weight:600;margin-right:auto}
+.maplink:hover{text-decoration:underline}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--shu);color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:7px;transition:.14s}
+.btn:hover{filter:brightness(1.1)}
+.count{color:var(--dim);font-size:12.5px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(410px,1fr));gap:13px}
+.empty{text-align:center;color:var(--dim);padding:56px 20px;border:1px dashed var(--line);border-radius:10px}
+.empty .kj{font-family:var(--jp);font-size:30px;color:var(--line2);display:block;margin-bottom:10px}
+footer{margin-top:44px;color:var(--dim);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:20px}
 
-/* THUMBNAILS (lazy Instagram embeds) */
-.thumb{position:relative;overflow:hidden;border-radius:10px;background:#0b0d11;border:1px solid var(--line);flex:0 0 auto;width:104px;height:127px}
+/* ---------- NAHLEDY ---------- */
+.thumb{position:relative;overflow:hidden;border-radius:7px;background:#0b0908;border:1px solid var(--line);flex:0 0 auto;width:104px;height:127px}
 .thumb .fr{position:absolute;top:-15px;left:0;transform:scale(.319);transform-origin:0 0}
-.thumb iframe{width:326px;height:660px;border:0;display:block;background:#0b0d11}
-.thumb .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#39404e;font-size:19px}
-.plrow{display:flex;gap:11px}
-.plbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
-.crow{display:flex;gap:13px}
-.cbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:9px}
+.thumb iframe{width:326px;height:660px;border:0;display:block;background:#0b0908}
+.thumb .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#3b332e;font-size:18px}
 .card .thumb{width:120px;height:147px}
 .card .thumb .fr{transform:scale(.368);top:-17px}
-@media(max-width:520px){.thumb{width:88px;height:108px}.thumb .fr{transform:scale(.27);top:-12px}.card .thumb{width:96px;height:117px}.card .thumb .fr{transform:scale(.294);top:-14px}}
-@media(max-width:520px){.grid,.plist{grid-template-columns:1fr}h1{font-size:22px}.legtag{margin-left:0}}
+
+/* ---------- HLASOVANI ---------- */
+.vote{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:1px}
+.vb{background:var(--card2);border:1px solid var(--line);color:var(--mut);border-radius:7px;padding:5px 10px;font-size:13px;line-height:1.15;cursor:pointer;transition:.12s;user-select:none}
+.vb:hover{border-color:var(--line2)}
+.vb.on.y{background:var(--matcha);border-color:var(--matcha)}
+.vb.on.m{background:var(--gold);border-color:var(--gold)}
+.vb.on.n{background:#8d3b2a;border-color:#8d3b2a}
+.peer{font-size:11px;color:var(--dim);display:inline-flex;gap:5px;flex-wrap:wrap;align-items:center}
+.pv{border:1px solid var(--line);border-radius:999px;padding:1px 9px;white-space:nowrap}
+.pv.y{color:var(--matcha);border-color:rgba(120,174,134,.4)}
+.pv.m{color:var(--gold);border-color:rgba(201,162,39,.4)}
+.pv.n{color:#d98a76;border-color:rgba(217,138,118,.4)}
+.pv.ok{color:#10231a;background:var(--matcha);border-color:var(--matcha);font-weight:700}
+
+@media(max-width:760px){
+  .grid,.plist{grid-template-columns:1fr}
+  h1{font-size:26px}.kanji-mark{font-size:32px}
+  .legtag{margin-left:0}
+  .topin{gap:10px;padding:9px 20px}
+  .tally{width:100%;margin-left:0}
+  .thumb{width:92px;height:113px}.thumb .fr{transform:scale(.282);top:-13px}
+  .card .thumb{width:100px;height:123px}.card .thumb .fr{transform:scale(.307);top:-14px}
+  .vb{padding:7px 13px;font-size:14px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-  <h1>Japonsko - plan cesty & prehled reels</h1>
-  <div class="sub">Z tve IG kolekce (<b id="tot"></b> reelu). V zalozce <b>Plan</b> mas nejlepsi mista rozhozena podle mest do trasy; v zalozce <b>Vsechny reely</b> kompletni seznam s hodnocenim a odkazy.</div>
-  <div class="tabs">
-    <div class="tab active" data-t="plan">🗺️ Plan podle mest</div>
-    <div class="tab" data-t="reels">🎬 Vsechny reely</div>
-  </div>
-  <div class="mebar" id="mebar"></div>
-</header>
 
-<!-- PLAN SECTION -->
+<div class="wrap">
+  <header class="hd">
+    <div class="hdrow">
+      <div class="kanji-mark">日本</div>
+      <div>
+        <h1>Japonsko <span class="thin">— plán cesty</span></h1>
+        <div class="sub">Z vaší instagramové kolekce, <b id="tot"></b> uložených reelů. V záložce <b>Plán</b> jsou nejlepší místa rozházená podle měst do trasy, v <b>Reelech</b> kompletní seznam s hodnocením. U každého místa je náhled videa — stačí kliknout a přehraje se rovnou tady.</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+  </header>
+</div>
+
+<div class="topbar">
+  <div class="topin">
+    <div class="tabs">
+      <div class="tab active" data-t="plan">Plán podle měst</div>
+      <div class="tab" data-t="reels">Všechny reely</div>
+    </div>
+    <span class="who">Hlasuje</span>
+    <span class="uswitch" id="uswitch"></span>
+    <button class="linkbtn" id="me-share">Odkaz pro druhého</button>
+    <span class="st" id="st"></span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- PLAN -->
 <div class="section show" id="sec-plan">
   <div class="modebar">
-    <div class="mode active" data-m="curated">⭐ Jen vybrana mista</div>
-    <div class="mode" data-m="all">📍 Vsechny reely podle mest</div>
+    <div class="mode active" data-m="curated">Vybraná místa</div>
+    <div class="mode" data-m="all">Všechny reely po městech</div>
   </div>
-  <div class="vfilter"><span class="agreebtn"></span><span>Hlasovani:</span><select id="vf-plan" class="vfsel"></select><span class="tally" id="tally-plan"></span></div>
-  <div class="chips" id="plancats" style="margin-top:14px"></div>
-  <div class="routebar" id="route"></div>
-  <div class="tip" id="tip-curated">💡 <b>Doporucena trasa:</b> zacni v Tokiu, pak Shinkansenem do Kjota (baze pro Kjoto + Nara + Uji), dolu do Osaky, a podle chuti pridej vylety Aici/Suzuka nebo dalsi cestu na Fukuoku. Zelene stitky = realna hodnoceni lidi, ostatni je moje skore.</div>
-  <div class="tip" id="tip-all" style="display:none">📍 <b>Vsech 204 reelu</b> rozdelenych podle mesta, ktere se v nich zminuje. Kliknutim na mesto sbalis/rozbalis jeho seznam. Co nema jasne mesto, je v "Cele Japonsko / neurceno".</div>
+  <div class="toolbar">
+    <span class="agreebtn" id="agree-plan"></span>
+    <select id="vf-plan" class="vfsel"></select>
+    <span class="tally" id="tally-plan"></span>
+  </div>
+  <div class="legend"><b>👍 chci</b> · <b>🤔 možná</b> · <b>👎 nechci</b> — druhý klik na stejné tlačítko volbu zruší. Zelený rámeček = shodli jste se.</div>
+  <div class="chips" id="plancats"></div>
+  <div class="route" id="route"></div>
+  <div class="tip" id="tip-curated"><b>Doporučená trasa:</b> začni v Tokiu, pak šinkansenem do Kjóta (základna pro Kjóto, Naru i Uji), dolů do Ósaky, a podle chuti přidej výlety na Aiči a Suzuku nebo delší cestu na Fukuoku. Zelené štítky jsou reálná hodnocení lidí, ostatní je kurátorské skóre.</div>
+  <div class="tip" id="tip-all" style="display:none"><b>Všech 204 reelů</b> rozdělených podle města, které se v nich zmiňuje. Kliknutím na město seznam sbalíš nebo rozbalíš. Co nemá jasné město, najdeš v „Celé Japonsko / neurčeno".</div>
   <div id="plan"></div>
   <div id="plan-all" style="display:none"></div>
 </div>
 
-<!-- REELS SECTION -->
+<!-- REELY -->
 <div class="section" id="sec-reels">
-  <div class="controls">
-    <div class="searchrow">
-      <input type="search" id="q" placeholder="Hledat (misto, mesto, jidlo, autor...)">
-      <select id="sort">
-        <option value="score">Seradit: nejlepsi skore</option>
-        <option value="verified">Seradit: overena mista prvni</option>
-        <option value="orig">Seradit: poradi v kolekci</option>
-      </select>
-    </div>
-    <div class="chips" id="chips"></div>
-    <div class="vfilter"><span class="agreebtn"></span><span>Hlasovani:</span><select id="vf-reels" class="vfsel"></select><span class="tally" id="tally-reels"></span></div>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Hledat místo, město, jídlo, autora…">
+    <select id="sort">
+      <option value="score">Řadit: nejlepší skóre</option>
+      <option value="verified">Řadit: ověřená místa první</option>
+      <option value="orig">Řadit: pořadí v kolekci</option>
+    </select>
   </div>
+  <div class="toolbar">
+    <span class="agreebtn" id="agree-reels"></span>
+    <select id="vf-reels" class="vfsel"></select>
+    <span class="tally" id="tally-reels"></span>
+  </div>
+  <div class="chips" id="chips"></div>
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
-  <div class="empty" id="empty" style="display:none">Nic nenalezeno - zkus jiny filtr.</div>
+  <div class="empty" id="empty" style="display:none"><span class="kj">無</span>Nic nenalezeno — zkus jiný filtr.</div>
 </div>
 
-<footer>Vygenerovano z tve kolekce "Japonsko". Skore je subjektivni kuratorske hodnoceni; zelene stitky jsou realna verejna hodnoceni (Google/Tabelog/Tripadvisor, srpen 2026).</footer>
+<footer>Vygenerováno z kolekce „Japonsko". Skóre je subjektivní kurátorské hodnocení; zelené štítky jsou reálná veřejná hodnocení (Google / Tabelog / Tripadvisor, srpen 2026).</footer>
 </div>
 
 <script>
 const DATA=__DATA__, CC=__COLORS__, CATS=__CATS__, PLAN=__PLAN__;
-let activeCat="Vse", q="", sort="score";
+let activeCat="Vše", q="", sort="score";
 document.getElementById('tot').textContent=DATA.length;
 
-/* tabs */
-document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  const which=t.dataset.t;
-  document.getElementById('sec-plan').classList.toggle('show',which==='plan');
-  document.getElementById('sec-reels').classList.toggle('show',which==='reels');
-  window.scrollTo({top:0});
-});
+const KANJI={"Tokio":"東京","Tokio & okolí":"東京","Kjóto":"京都","Kjóto + Uji":"京都","Nara":"奈良","Ósaka":"大阪",
+"Nagoja / Aiči":"愛知","Aiči / Nagoja":"愛知","Suzuka / Mie":"三重","Hakone / Fudži":"富士","Jokohama":"横浜",
+"Kamakura / Enošima":"鎌倉","Kawagoe (Saitama)":"川越","Kanazawa":"金沢","Fukuoka / Kjúšú":"福岡",
+"Hirošima / Mijadžima":"広島","Aomori / Tóhoku":"青森","Wakajama":"和歌山","Hokkaidó":"北海道",
+"Celé Japonsko / neurčeno":"日本","Bonus / mimo hlavní trasu":"寄道"};
+const KNUM=["一","二","三","四","五","六","七","八","九","十"];
+function kanjiOf(c){return KANJI[c]||"日本";}
+function slug(s){return 'm-'+s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 
-/* ---- lazy Instagram thumbnails ---- */
+function esc(t){return (t||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function stars(s){let out="";for(let i=1;i<=5;i++){out+= s>=i?"★":(s>=i-0.5?"⯪":"☆");}return out;}
+function mapsLink(gmap,cls){return gmap?('<a class="'+cls+'" href="'+esc(gmap)+'" target="_blank" rel="noopener">Mapy</a>'):'';}
+
+/* ---- lazy náhledy z Instagramu ---- */
 function reelCode(u){const m=/\/reel\/([A-Za-z0-9_-]+)/.exec(u||'');return m?m[1]:'';}
-function thumbHtml(u){const c=reelCode(u);return c?('<div class="thumb" data-c="'+c+'"><div class="ph">\u25B6</div></div>'):'<div class="thumb"><div class="ph">\u25B6</div></div>';}
+function thumbHtml(u){const c=reelCode(u);return '<div class="thumb"'+(c?' data-c="'+c+'"':'')+'><div class="ph">▶</div></div>';}
 const ioNear=new IntersectionObserver(es=>{es.forEach(e=>{
   if(!e.isIntersecting) return;
   const el=e.target;
@@ -230,10 +305,10 @@ function observeThumbs(root){
   });
 }
 
-/* ================= HLASOVANI (sdilene pres Cloudflare Worker) ================= */
+/* ================= HLASOVÁNÍ (sdílené přes Cloudflare Worker) ================= */
 const VOTE_API="https://japan-votes.strnad-mirek.workers.dev";
 const USERS=["Mirek","Daniela"];
-const VLAB={y:"Chci",m:"Mozna",n:"Nechci"};
+const VLAB={y:"chce",m:"možná",n:"nechce"};
 let ME=localStorage.getItem('jp_user')||'';
 if(USERS.indexOf(ME)<0) ME='';
 let VKEY=localStorage.getItem('jp_key')||'';
@@ -242,28 +317,18 @@ try{MY=JSON.parse(localStorage.getItem('jp_my_'+ME)||'{}')||{};}catch(e){MY={};}
 try{THEM=JSON.parse(localStorage.getItem('jp_them')||'{}')||{};}catch(e){THEM={};}
 
 (function readHash(){
-  const h=location.hash.replace(/^#/,''); if(!h) return;
+  const h=location.hash.replace(/^#/,''); if(!h||h.indexOf('=')<0) return;
   const p=new URLSearchParams(h); let hit=false;
   if(p.get('key')){VKEY=p.get('key');localStorage.setItem('jp_key',VKEY);hit=true;}
   if(p.get('me')&&USERS.indexOf(p.get('me'))>=0){ME=p.get('me');localStorage.setItem('jp_user',ME);hit=true;}
   if(hit) history.replaceState(null,'',location.pathname+location.search);
 })();
 
-function setStatus(txt,err){const e=document.querySelector('#mebar .st');if(e){e.textContent=txt||'';e.className='st'+(err?' err':'');}}
-
-function renderMebar(){
-  const el=document.getElementById('mebar');
-  el.innerHTML='<span class="who">Hlasujes jako</span>'+
-    '<span class="uswitch">'+USERS.map(u=>'<span class="ub'+(u===ME?' on':'')+'" data-u="'+u+'">'+u+'</span>').join('')+'</span>'+
-    (ME?'':'<span class="who">← vyber sebe, pak muzes hlasovat</span>')+
-    '<button class="ghost" id="me-share">Zkopirovat odkaz pro druheho</button>'+
-    '<span class="st"></span>';
+function setStatus(txt,err){const e=document.getElementById('st');if(e){e.textContent=txt||'';e.className='st'+(err?' err':'');}}
+function renderUsers(){
+  const el=document.getElementById('uswitch');
+  el.innerHTML=USERS.map(u=>'<span class="ub'+(u===ME?' on':'')+'" data-u="'+u+'">'+u+'</span>').join('');
   el.querySelectorAll('.ub').forEach(b=>{b.onclick=()=>switchUser(b.dataset.u);});
-  const sh=el.querySelector('#me-share');
-  if(sh) sh.onclick=()=>{
-    const link=location.origin+location.pathname+'#key='+encodeURIComponent(VKEY);
-    navigator.clipboard.writeText(link).then(()=>setStatus('Odkaz zkopirovan'),()=>setStatus('Odkaz: '+link));
-  };
 }
 function switchUser(u){
   if(u===ME) return;
@@ -271,38 +336,29 @@ function switchUser(u){
   let cached={}; try{cached=JSON.parse(localStorage.getItem('jp_my_'+ME)||'{}')||{};}catch(e){cached={};}
   MY=(THEM[ME]&&Object.keys(THEM[ME]).length)?Object.assign({},THEM[ME]):cached;
   localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));
-  renderMebar(); rerenderAll(); pull();
+  renderUsers(); rerenderAll(); pull();
 }
-
 function voteId(url){return reelCode(url);}
 function voteOf(u,id){ if(u===ME) return MY[id]||''; const m=THEM[u]||{}; return m[id]||''; }
 function myVote(id){return ME?(MY[id]||''):'';}
-function peersFor(id){
-  const out=[];
-  USERS.forEach(u=>{ if(u===ME) return; const v=voteOf(u,id); if(v) out.push([u,v]); });
-  return out;
-}
+function peersFor(id){const out=[];USERS.forEach(u=>{if(u===ME)return;const v=voteOf(u,id);if(v)out.push([u,v]);});return out;}
 function isAgreed(id){return USERS.every(u=>voteOf(u,id)==='y');}
-function isConflict(id){
-  const a=voteOf(USERS[0],id), b=voteOf(USERS[1],id);
-  return (a==='y'&&b==='n')||(a==='n'&&b==='y');
-}
+function isConflict(id){const a=voteOf(USERS[0],id),b=voteOf(USERS[1],id);return (a==='y'&&b==='n')||(a==='n'&&b==='y');}
 function voteHtml(url){
   const id=voteId(url); if(!id) return '';
   return '<div class="vote" data-id="'+id+'">'+
-    '<span class="vb y" data-v="y">\u{1F44D}</span>'+
-    '<span class="vb m" data-v="m">\u{1F914}</span>'+
-    '<span class="vb n" data-v="n">\u{1F44E}</span>'+
+    '<span class="vb y" data-v="y" title="Chci">👍</span>'+
+    '<span class="vb m" data-v="m" title="Možná">🤔</span>'+
+    '<span class="vb n" data-v="n" title="Nechci">👎</span>'+
     '<span class="peer"></span></div>';
 }
 function paintVotes(root){
   (root||document).querySelectorAll('.vote').forEach(v=>{
-    const id=v.dataset.id, mine=myVote(id);
+    const id=v.dataset.id, mine=myVote(id), ok=isAgreed(id);
     v.querySelectorAll('.vb').forEach(b=>b.classList.toggle('on',b.dataset.v===mine));
-    const ps=peersFor(id);
-    v.querySelector('.peer').innerHTML=
-      (isAgreed(id)?'<span class="pv ok">✓ shoda</span>':'')+
-      ps.map(function(x){return '<span class="pv '+x[1]+'">'+esc(x[0])+': '+VLAB[x[1]]+'</span>';}).join('');
+    v.querySelector('.peer').innerHTML=(ok?'<span class="pv ok">✓ shoda</span>':'')+
+      peersFor(id).map(function(x){return '<span class="pv '+x[1]+'">'+esc(x[0])+' '+VLAB[x[1]]+'</span>';}).join('');
+    const box=v.closest('.pl')||v.closest('.card'); if(box) box.classList.toggle('agreed',ok);
   });
   paintTally();
 }
@@ -311,7 +367,7 @@ function paintTally(){
   USERS.forEach(u=>{const m=(u===ME?MY:(THEM[u]||{}));Object.keys(m||{}).forEach(i=>ids.add(i));});
   let agreed=0,conf=0,mineY=0;
   ids.forEach(id=>{ if(myVote(id)==='y')mineY++; if(isAgreed(id))agreed++; if(isConflict(id))conf++; });
-  const txt='<span>Tve \u{1F44D}: <b>'+mineY+'</b></span><span>Shoda: <b>'+agreed+'</b></span><span>Neshoda: <b>'+conf+'</b></span>';
+  const txt='<span>tvoje 👍 <b>'+mineY+'</b></span><span>shoda <b>'+agreed+'</b></span><span>neshoda <b>'+conf+'</b></span>';
   ['tally-plan','tally-reels'].forEach(i=>{const e=document.getElementById(i);if(e)e.innerHTML=txt;});
   document.querySelectorAll('.agreebtn .n').forEach(e=>{e.textContent=agreed;});
 }
@@ -333,11 +389,9 @@ function setFilter(v){
   document.querySelectorAll('.agreebtn').forEach(b=>b.classList.toggle('on',v==='both-y'));
   rerenderAll();
 }
-
-/* klik na hlas */
 document.addEventListener('click',e=>{
   const b=e.target.closest('.vb'); if(!b) return;
-  if(!ME){setStatus('Nejdriv nahore vyber, kdo jsi',true);document.getElementById('mebar').scrollIntoView({behavior:'smooth',block:'center'});return;}
+  if(!ME){setStatus('Vyber nahoře, kdo hlasuje',true);window.scrollTo({top:0});return;}
   const id=b.closest('.vote').dataset.id, val=b.dataset.v;
   if(MY[id]===val) delete MY[id]; else MY[id]=val;
   localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));
@@ -345,20 +399,18 @@ document.addEventListener('click',e=>{
   if(voteFilter) rerenderAll();
   push();
 });
-
-/* sync */
 let pushT=null, pushing=false;
 function push(){
   if(!VOTE_API||VOTE_API.indexOf('http')!==0||!ME) return;
   clearTimeout(pushT);
   pushT=setTimeout(async()=>{
     if(pushing){push();return;}
-    pushing=true; setStatus('Ukladam...');
+    pushing=true; setStatus('ukládám…');
     try{
       const r=await fetch(VOTE_API+'?k='+encodeURIComponent(VKEY),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user:ME,votes:MY})});
       if(!r.ok) throw new Error('HTTP '+r.status);
-      setStatus('Ulozeno');
-    }catch(err){setStatus('Offline - ulozeno jen v prohlizeci',true);}
+      setStatus('uloženo');
+    }catch(err){setStatus('offline — uloženo jen v prohlížeči',true);}
     pushing=false;
   },700);
 }
@@ -371,38 +423,48 @@ async function pull(){
     THEM=d.users||{};
     localStorage.setItem('jp_them',JSON.stringify(THEM));
     if(ME&&THEM[ME]&&!Object.keys(MY).length){MY=Object.assign({},THEM[ME]);localStorage.setItem('jp_my_'+ME,JSON.stringify(MY));}
-    renderMebar(); paintVotes(); if(voteFilter) rerenderAll();
+    renderUsers(); paintVotes(); if(voteFilter) rerenderAll();
     setStatus('');
-  }catch(err){setStatus('Offline - hlasy se neposilaji',true);}
+  }catch(err){setStatus('offline — hlasy se neposílají',true);}
 }
 function rerenderAll(){renderCurated();renderAll();render();}
 
-/* filtr */
-const VF=[['','Vse'],['my-y','Moje: chci'],['my-m','Moje: mozna'],['my-n','Moje: nechci'],['both-y','Shodli jsme se'],['conflict','Neshoda'],['none','Zatim nehodnocene']];
+const VF=[['','Filtr hlasování: vše'],['my-y','Moje: chci'],['my-m','Moje: možná'],['my-n','Moje: nechci'],['both-y','Shodli jsme se'],['conflict','Neshoda'],['none','Zatím nehodnocené']];
 document.querySelectorAll('.vfsel').forEach(sel=>{
   sel.innerHTML=VF.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('');
   sel.onchange=()=>setFilter(sel.value);
 });
 document.querySelectorAll('.agreebtn').forEach(b=>{
-  b.innerHTML='✓ Jen nase shoda <span class="n">0</span>';
+  b.innerHTML='✓ Jen naše shoda <span class="n">0</span>';
   b.onclick=()=>setFilter(voteFilter==='both-y'?'':'both-y');
 });
+document.getElementById('me-share').onclick=()=>{
+  const link=location.origin+location.pathname+'#key='+encodeURIComponent(VKEY);
+  navigator.clipboard.writeText(link).then(()=>setStatus('odkaz zkopírován'),()=>setStatus('odkaz: '+link));
+};
 
-function esc(t){return (t||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function stars(s){let out="";for(let i=1;i<=5;i++){out+= s>=i?"★":(s>=i-0.5?"½":"☆");}return out;}
+/* ---- záložky ---- */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  const which=t.dataset.t;
+  document.getElementById('sec-plan').classList.toggle('show',which==='plan');
+  document.getElementById('sec-reels').classList.toggle('show',which==='reels');
+  window.scrollTo({top:0});
+});
 
-/* route bar */
+/* ---- trasa ---- */
 document.getElementById('route').innerHTML = PLAN.map((l,i)=>
-  '<span><b>'+esc(l.city.split(' /')[0])+'</b></span>'+(i<PLAN.length-1?'<span class="arw">→</span>':'')
+  '<a class="rstop" href="#'+slug(l.city)+'"><div class="rk">'+(KNUM[i]||'')+' '+kanjiOf(l.city)+'</div>'+
+  '<div class="rn">'+esc(l.city.split(' /')[0])+'</div><div class="rd">'+esc(l.days)+'</div></a>'
 ).join('');
 
-let planCat="Vse";
-function mapsLink(gmap,cls){return gmap?('<a class="'+cls+'" href="'+esc(gmap)+'" target="_blank" rel="noopener">🗺️ Mapy</a>'):'';}
+let planCat="Vše";
 
-/* plan: curated */
+/* ---- plán: vybraná místa ---- */
 function renderCurated(){
   document.getElementById('plan').innerHTML = PLAN.map(l=>{
-    const places=l.places.filter(pp=>(planCat==='Vse'||pp.cat===planCat)&&passVote(pp.url));
+    const places=l.places.filter(pp=>(planCat==='Vše'||pp.cat===planCat)&&passVote(pp.url));
     if(!places.length) return '';
     const cards=places.map(pp=>{
       const rb = pp.real ? '<span class="rb real">'+esc(pp.badge)+'</span>'
@@ -415,33 +477,33 @@ function renderCurated(){
         (pp.note?'<div class="nt">'+esc(pp.note)+'</div>':'')+
         '<div class="lnks"><a class="reel" href="'+esc(pp.url)+'" target="_blank" rel="noopener">▶ Reel</a>'+mapsLink(pp.gmap,'map')+'</div>'+
         voteHtml(pp.url)+
-        '</div></div>'+
-      '</div>';
+        '</div></div></div>';
     }).join('');
-    return '<div class="leg">'+
-      '<div class="leghead"><span class="cityname">'+esc(l.city)+'</span>'+
-        '<span class="citymeta">'+esc(l.days)+' · '+places.length+' mist</span>'+
+    return '<section class="leg" id="'+slug(l.city)+'">'+
+      '<div class="leghead"><span class="kj">'+kanjiOf(l.city)+'</span>'+
+        '<span class="cityname">'+esc(l.city)+'</span>'+
+        '<span class="citymeta">'+esc(l.days)+' · '+places.length+' míst</span>'+
         '<span class="legtag">'+esc(l.tag)+'</span></div>'+
       '<div class="legdesc">'+esc(l.desc)+'</div>'+
       '<div class="plist">'+cards+'</div>'+
-    '</div>';
-  }).join('') || '<div class="empty">V teto kategorii nejsou vybrana mista - zkus zalozku "Vsechny reely podle mest".</div>';
+    '</section>';
+  }).join('') || '<div class="empty"><span class="kj">空</span>V tomhle výběru nic nezbylo — zkus jiný filtr nebo záložku „Všechny reely po městech".</div>';
   observeThumbs(document.getElementById('plan'));
   paintVotes(document.getElementById('plan'));
 }
 
-/* plan: all reels grouped by city */
-const CITY_ORDER=["Tokio","Kjoto","Nara","Osaka","Nagoya / Aici","Suzuka / Mie","Hakone / Fuji","Jokohama","Kamakura / Enoshima","Kawagoe (Saitama)","Kanazawa","Fukuoka / Kjusu","Hirosima / Mijadzima","Aomori / Tohoku","Wakayama","Hokkaido","Cele Japonsko / neurceno"];
+/* ---- plán: všechny reely po městech ---- */
+const CITY_ORDER=["Tokio","Kjóto","Nara","Ósaka","Nagoja / Aiči","Suzuka / Mie","Hakone / Fudži","Jokohama","Kamakura / Enošima","Kawagoe (Saitama)","Kanazawa","Fukuoka / Kjúšú","Hirošima / Mijadžima","Aomori / Tóhoku","Wakajama","Hokkaidó","Celé Japonsko / neurčeno"];
 function renderAll(){
   const byCity={};
-  DATA.filter(r=>(planCat==='Vse'||r.cat===planCat)&&passVote(r.url)).forEach(r=>{(byCity[r.city]=byCity[r.city]||[]).push(r);});
+  DATA.filter(r=>(planCat==='Vše'||r.cat===planCat)&&passVote(r.url)).forEach(r=>{(byCity[r.city]=byCity[r.city]||[]).push(r);});
   let order=CITY_ORDER.filter(c=>byCity[c]);
   Object.keys(byCity).forEach(c=>{if(!order.includes(c))order.push(c);});
   const html=order.map(c=>{
     const items=byCity[c].slice().sort((a,b)=>b.score-a.score||(b.place?1:0)-(a.place?1:0));
     const cards=items.map(r=>{
       const col=CC[r.cat]||'#888';
-      const badge=r.place?('<span class="rb real">'+esc(r.ext&&r.ext!=='-'?r.ext:r.place)+'</span>'):('<span class="rb score">'+r.score.toFixed(1).replace('.',',')+'/5 '+stars(r.score)+'</span>');
+      const badge=r.place?('<span class="rb real">'+esc(r.ext&&r.ext!=='-'?r.ext:r.place)+'</span>'):('<span class="rb score">'+r.score.toFixed(1).replace('.',',')+' / 5</span>');
       return '<div class="pl" style="--pc:'+col+'"><div class="plrow">'+
         thumbHtml(r.url)+
         '<div class="plbody">'+
@@ -450,35 +512,33 @@ function renderAll(){
         (r.note?'<div class="nt">'+esc(r.note)+'</div>':'')+
         '<div class="lnks"><a class="reel" href="'+esc(r.url)+'" target="_blank" rel="noopener">▶ Reel</a>'+mapsLink(r.gmap,'map')+'</div>'+
         voteHtml(r.url)+
-        '</div></div>'+
-      '</div>';
+        '</div></div></div>';
     }).join('');
-    const collapsed = (c==='Cele Japonsko / neurceno');
-    return '<div class="leg'+(collapsed?' collapsed':'')+'">'+
-      '<div class="leghead" onclick="this.parentNode.classList.toggle(\'collapsed\')"><span class="cityname">'+esc(c)+'</span>'+
-        '<span class="citymeta">'+items.length+' reelu</span>'+
+    const collapsed = (c==='Celé Japonsko / neurčeno');
+    return '<section class="leg'+(collapsed?' collapsed':'')+'">'+
+      '<div class="leghead" style="cursor:pointer" onclick="this.parentNode.classList.toggle(\'collapsed\')">'+
+        '<span class="kj">'+kanjiOf(c)+'</span><span class="cityname">'+esc(c)+'</span>'+
+        '<span class="citymeta">'+items.length+' reelů</span>'+
         '<span class="caret">▼</span></div>'+
       '<div class="plist">'+cards+'</div>'+
-    '</div>';
+    '</section>';
   }).join('');
-  document.getElementById('plan-all').innerHTML = html || '<div class="empty">V teto kategorii nic neni.</div>';
+  document.getElementById('plan-all').innerHTML = html || '<div class="empty"><span class="kj">空</span>V tomhle výběru nic není.</div>';
   observeThumbs(document.getElementById('plan-all'));
   paintVotes(document.getElementById('plan-all'));
 }
 
-/* plan category chips */
+/* ---- kategorie v plánu ---- */
 const pcats=document.getElementById('plancats');
 CATS.forEach(c=>{
   const el=document.createElement('div');
-  el.className='chip'+(c==='Vse'?' active':'');
-  el.textContent=c;
+  el.className='chip'+(c==='Vše'?' active':'');
+  el.innerHTML=(c==='Vše'?'':'<span class="dot" style="--cd:'+(CC[c]||'#888')+'"></span>')+esc(c);
   el.onclick=()=>{planCat=c;[...pcats.children].forEach(x=>x.classList.remove('active'));el.classList.add('active');renderCurated();renderAll();};
   pcats.appendChild(el);
 });
-renderCurated();
-renderAll();
 
-/* mode toggle (curated vs all-by-city) */
+/* ---- přepínač režimu ---- */
 document.querySelectorAll('.mode').forEach(m=>m.onclick=()=>{
   document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));
   m.classList.add('active');
@@ -490,12 +550,13 @@ document.querySelectorAll('.mode').forEach(m=>m.onclick=()=>{
   document.getElementById('route').style.display=all?'none':'flex';
 });
 
-/* reels chips */
+/* ---- kategorie v reelech ---- */
 const chips=document.getElementById('chips');
 CATS.forEach(c=>{
   const el=document.createElement('div');
-  el.className='chip'+(c==='Vse'?' active':'');
-  el.textContent=c==='Vse'?('Vse ('+DATA.length+')'):(c+' ('+DATA.filter(r=>r.cat===c).length+')');
+  el.className='chip'+(c==='Vše'?' active':'');
+  const n=c==='Vše'?DATA.length:DATA.filter(r=>r.cat===c).length;
+  el.innerHTML=(c==='Vše'?'':'<span class="dot" style="--cd:'+(CC[c]||'#888')+'"></span>')+esc(c)+' <span style="opacity:.6">'+n+'</span>';
   el.onclick=()=>{activeCat=c;[...chips.children].forEach(x=>x.classList.remove('active'));el.classList.add('active');render();};
   chips.appendChild(el);
 });
@@ -504,8 +565,8 @@ document.getElementById('sort').addEventListener('change',e=>{sort=e.target.valu
 
 function render(){
   let list=DATA.filter(r=>{
-    if(activeCat!=='Vse' && r.cat!==activeCat) return false;
-    if(q){const hay=(r.owner+' '+r.cap+' '+r.place+' '+r.note+' '+r.tags.join(' ')+' '+r.cat).toLowerCase(); if(!hay.includes(q)) return false;}
+    if(activeCat!=='Vše' && r.cat!==activeCat) return false;
+    if(q){const hay=(r.owner+' '+r.cap+' '+r.place+' '+r.note+' '+r.tags.join(' ')+' '+r.cat+' '+r.city).toLowerCase(); if(!hay.includes(q)) return false;}
     if(!passVote(r.url)) return false;
     return true;
   });
@@ -514,33 +575,34 @@ function render(){
   else list.sort((a,b)=>a.i-b.i);
   const grid=document.getElementById('grid'); grid.innerHTML='';
   document.getElementById('empty').style.display=list.length?'none':'block';
-  document.getElementById('count').textContent='Zobrazeno '+list.length+' reelu'+(activeCat!=='Vse'?(' v kategorii '+activeCat):'');
+  document.getElementById('count').textContent='Zobrazeno '+list.length+' reelů'+(activeCat!=='Vše'?(' v kategorii '+activeCat):'');
   list.forEach(r=>{
     const col=CC[r.cat]||'#888';
     const card=document.createElement('div');card.className='card';card.style.setProperty('--cbar',col);
-    const placeHtml=r.place?('<div class="place">📍 '+esc(r.place)+(r.ext&&r.ext!=='-'?('<span class="ext">'+esc(r.ext)+'</span>'):'')+'</div>'):'';
+    const placeHtml=r.place?('<div class="place">'+esc(r.place)+(r.ext&&r.ext!=='-'?('<span class="ext">'+esc(r.ext)+'</span>'):'')+'</div>'):'';
     const noteHtml=r.note?('<div class="note">'+esc(r.note)+'</div>'):'';
     const tagsHtml=r.tags.length?('<div class="tags">'+r.tags.map(t=>'<span class="tag">#'+esc(t)+'</span>').join('')+'</div>'):'';
     const capClip=(r.cap||'').length>150;
     card.innerHTML='<div class="crow">'+thumbHtml(r.url)+'<div class="cbody">'+
       '<div class="chead"><div class="owner">'+esc(r.owner)+'</div><span class="catbadge" style="background:'+col+'">'+esc(r.cat)+'</span></div>'+
-      '<div class="stars">'+stars(r.score)+'<span class="num">'+r.score.toFixed(1).replace('.',',')+'/5</span></div>'+
+      '<div class="stars">'+stars(r.score)+'<span class="num">'+r.score.toFixed(1).replace('.',',')+' / 5 · '+esc(r.city.split(' /')[0])+'</span></div>'+
       placeHtml+noteHtml+
-      (r.cap?('<div class="cap'+(capClip?' clip':'')+'">'+esc(r.cap)+'</div>'+(capClip?'<span class="more">Zobrazit cely popisek</span>':'')):'')+
+      (r.cap?('<div class="cap'+(capClip?' clip':'')+'">'+esc(r.cap)+'</div>'+(capClip?'<span class="more">Zobrazit celý popisek</span>':'')):'')+
       tagsHtml+
-      '<div class="foot">'+(r.gmap?'<a class="maplink" href="'+esc(r.gmap)+'" target="_blank" rel="noopener">🗺️ Mapy</a>':'')+'<a class="btn" href="'+esc(r.url)+'" target="_blank" rel="noopener">Otevrit reel →</a></div>'+
       voteHtml(r.url)+
+      '<div class="foot">'+(r.gmap?'<a class="maplink" href="'+esc(r.gmap)+'" target="_blank" rel="noopener">Mapy</a>':'<span class="maplink"></span>')+'<a class="btn" href="'+esc(r.url)+'" target="_blank" rel="noopener">Otevřít reel →</a></div>'+
       '</div></div>';
-    if(capClip){const cap=card.querySelector('.cap'),more=card.querySelector('.more');more.onclick=()=>{cap.classList.toggle('open');cap.classList.toggle('clip');more.textContent=cap.classList.contains('open')?'Skryt':'Zobrazit cely popisek';};}
+    if(capClip){const cap=card.querySelector('.cap'),more=card.querySelector('.more');more.onclick=()=>{cap.classList.toggle('open');cap.classList.toggle('clip');more.textContent=cap.classList.contains('open')?'Skrýt':'Zobrazit celý popisek';};}
     grid.appendChild(card);
   });
   observeThumbs(grid);
   paintVotes(grid);
 }
-render();
 
-/* start hlasovani */
-renderMebar();
+renderCurated();
+renderAll();
+render();
+renderUsers();
 paintVotes();
 pull();
 setInterval(pull,15000);

@@ -8,20 +8,20 @@ data=json.load(open(_p('japonsko.json')))
 
 # priority-ordered city rules (label, keywords)
 RULES=[
- ("Kjoto",["kyoto","kjoto","fushimi inari","gion","arashiyama","higashiyama","nanzenji","kiyomizu","uji","kinkaku","teramachi","shijo","parkhyattkyoto","kyototravel"]),
- ("Osaka",["osaka","dotonbori","namba","nipponbashi","shinsaibashi","umeda","shinsekai","glico","tsutenkaku","kansai"]),
+ ("Kjóto",["kyoto","kjoto","fushimi inari","gion","arashiyama","higashiyama","nanzenji","kiyomizu","uji","kinkaku","teramachi","shijo","parkhyattkyoto","kyototravel"]),
+ ("Ósaka",["osaka","dotonbori","namba","nipponbashi","shinsaibashi","umeda","shinsekai","glico","tsutenkaku","kansai"]),
  ("Nara",["nara","todaiji","narapark"]),
- ("Nagoya / Aici",["nagoya","aichi","ghibli park","ghiblipark","mitaka","nagoyafood","chubu","tokoname"]),
- ("Fukuoka / Kjusu",["fukuoka","hakata","yanagawa","beppu","kyushu","kjusu","tenjin","dazaifu"]),
- ("Hakone / Fuji",["mt fuji","mtfuji","mount fuji","mountfuji","fujiyoshida","kawaguchi","chureito","hakone","fujikawa","fujispeedway","fuji speedway","shizuoka","fujisan","gotemba"]),
+ ("Nagoja / Aiči",["nagoya","aichi","ghibli park","ghiblipark","mitaka","nagoyafood","chubu","tokoname"]),
+ ("Fukuoka / Kjúšú",["fukuoka","hakata","yanagawa","beppu","kyushu","kjusu","tenjin","dazaifu"]),
+ ("Hakone / Fudži",["mt fuji","mtfuji","mount fuji","mountfuji","fujiyoshida","kawaguchi","chureito","hakone","fujikawa","fujispeedway","fuji speedway","shizuoka","fujisan","gotemba"]),
  ("Suzuka / Mie",["suzuka","mie ","ise "]),
- ("Kamakura / Enoshima",["kamakura","enoshima"]),
+ ("Kamakura / Enošima",["kamakura","enoshima"]),
  ("Jokohama",["yokohama","daikoku","minato mirai"]),
  ("Kanazawa",["kanazawa","ishikawa"]),
- ("Hokkaido",["hokkaido","sapporo","otaru","niseko"]),
- ("Hirosima / Mijadzima",["hiroshima","miyajima","itsukushima"]),
- ("Aomori / Tohoku",["aomori","tohoku","sendai","tsugaru","yamagata"]),
- ("Wakayama",["wakayama","koyasan","kishi station","tama densha"]),
+ ("Hokkaidó",["hokkaido","sapporo","otaru","niseko"]),
+ ("Hirošima / Mijadžima",["hiroshima","miyajima","itsukushima"]),
+ ("Aomori / Tóhoku",["aomori","tohoku","sendai","tsugaru","yamagata"]),
+ ("Wakajama",["wakayama","koyasan","kishi station","tama densha"]),
  ("Kawagoe (Saitama)",["kawagoe","saitama","omiya","omija"]),
  ("Tokio",["tokyo","tokio","shibuya","shinjuku","ginza","akihabara","asakusa","harajuku","daikanyama","azabu","shimbashi","shinbashi","marunouchi","roppongi","ueno","nakano","kichijoji","odaiba","toyosu","ikebukuro","nihonbashi","meguro","setagaya","gotokuji","nezu","skytree","tokyotower","teamlab","yurikamome","yamanote","keio tama","puroland","tama center","jingumae","aoyama","omotesando","chiyoda","minato","koto"]),
 ]
@@ -33,7 +33,7 @@ def city_of(o):
             # word-start boundary so 'uji' doesn't match 'fuji', 'nara' matches word start
             if re.search(r'\b'+re.escape(k.strip()), t):
                 return label
-    return "Cele Japonsko / neurceno"
+    return "Celé Japonsko / neurčeno"
 
 for r,o in zip(rows,data):
     r['city']=city_of(o)
