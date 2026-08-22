@@ -209,8 +209,8 @@ footer{margin-top:44px;color:var(--dim);font-size:12px;text-align:center;border-
 <div class="topbar">
   <div class="topin">
     <div class="tabs">
-      <div class="tab active" data-t="plan">Plán podle měst</div>
-      <div class="tab" data-t="reels">Všechny reely</div>
+      <div class="tab" data-t="plan">Plán podle měst</div>
+      <div class="tab active" data-t="reels">Všechny reely</div>
     </div>
     <span class="who">Hlasuje</span>
     <span class="uswitch" id="uswitch"></span>
@@ -222,7 +222,7 @@ footer{margin-top:44px;color:var(--dim);font-size:12px;text-align:center;border-
 <div class="wrap">
 
 <!-- PLAN -->
-<div class="section show" id="sec-plan">
+<div class="section" id="sec-plan">
   <div class="modebar">
     <div class="mode" data-m="curated">Vybraná místa</div>
     <div class="mode active" data-m="all">Všechny reely po městech</div>
@@ -242,7 +242,7 @@ footer{margin-top:44px;color:var(--dim);font-size:12px;text-align:center;border-
 </div>
 
 <!-- REELY -->
-<div class="section" id="sec-reels">
+<div class="section show" id="sec-reels">
   <div class="toolbar">
     <input type="search" id="q" placeholder="Hledat místo, město, jídlo, autora…">
     <select id="sort">
@@ -603,6 +603,8 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.getElementById('sec-plan').classList.toggle('show',which==='plan');
   document.getElementById('sec-reels').classList.toggle('show',which==='reels');
   if(which==='reels'&&!GRID.built){buildGrid();applyGrid();}
+  if(which==='plan'&&planMode==='all'&&!ALL.built){buildAll();applyLegView(ALL,'all-empty');}
+  if(which==='plan'&&planMode==='curated'&&!CUR.built){buildCurated();applyLegView(CUR,'cur-empty');}
   window.scrollTo({top:0});
   requestAnimationFrame(()=>{observeThumbs();evict();});
 });
@@ -665,7 +667,7 @@ document.getElementById('sort').addEventListener('change',e=>{sortMode=e.target.
 
 /* ---- start ---- */
 renderUsers();
-buildAll(); applyLegView(ALL,'all-empty');
+buildGrid(); applyGrid();
 paintTally();
 pull();
 setInterval(pull,15000);
