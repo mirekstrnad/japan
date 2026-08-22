@@ -5,6 +5,7 @@ import json, re
 data=json.load(open(_p('japonsko.json')))
 
 VERIFIED = {
+ "https://www.instagram.com/reel/DJtrgkfy5y6/": {"place":"Coftoalc (スパイスカレー コフトアルコ), Imaike, Nagoja","ext":"Google 4,6 (142)","note":"Kari podnik proslulý tiramisu koulemi (¥650). Zavřeno ve středu, 11:00–18:00."},
  "https://www.instagram.com/reel/Db9_s31yx_Q/": {"place":"Ginza Okeya (Okeya Kyujiro), Ginza","ext":"Tabelog 3,04","note":"Vizuálně bomba, ale gastronomicky průměr – spíš zážitek pro oči než jistota."},
  "https://www.instagram.com/reel/Dagy4FzPg1s/": {"place":"Ginza Happo, Tokio","ext":"Google 4,3 (2 038)","note":"All-you-can-eat krab + wagyu + pití, ~12 000 JPY. Rezervuj dopředu."},
  "https://www.instagram.com/reel/DaF8xw2t8Wf/": {"place":"Circuit Challenger, Suzuka","ext":"Google 4,1 (28)","note":"Kus reálného F1 okruhu, ale elektrické motokáry (pomalejší, než čekáš)."},

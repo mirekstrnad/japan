@@ -37,6 +37,7 @@ MANUAL={
  "https://www.instagram.com/reel/DafD2APoR6I/":"Otsuka Lotec, Japan",
  "https://www.instagram.com/reel/C7wGPN6Sh_C/":"Mofusand store, Tokyo",
  "https://www.instagram.com/reel/DZhteMYBPi7/":"Akihabara Game Boy modding workshop, Tokyo",
+ "https://www.instagram.com/reel/DJtrgkfy5y6/":"スパイスカレー コフトアルコ, 3-41-16 Imaike, Chikusa Ward, Nagoya, Aichi",
  # extra common named places
  "https://www.instagram.com/reel/C5igoKPhJEF/":"Tonkatsu Shimizu, Kyoto",
  "https://www.instagram.com/reel/DB3_9TxvNtw/":"Nara Park, Nara",
